@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>باسكوتشي كافيه | Paskootchi Cafe</title>
+    <!-- مكتبة الأيقونات والخطوط العصرية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة توليد QR Code تلقائياً -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --secondary: #2ec4b6;
+            --dark: #121212;
+            --dark-card: #1e1e1e;
+            --light: #f8f9fa;
+            --gray: #a0a0a0;
+            --accent: #ff9f1c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* شريط التنقل */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--light);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .header-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-btn:hover {
+            background: #e85d24;
+            transform: translateY(-2px);
+        }
+
+        /* القسم الرئيسي (Hero) */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://cdn.pixabay.com/photo/2016/11/18/14/05/brick-wall-1834784_1280.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 159, 28, 0.2);
+            border: 1px solid var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e85d24;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        /* المميزات السريعة */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 50px 8%;
+            background: var(--dark-card);
+            text-align: center;
+        }
+
+        .feature-box {
+            padding: 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .feature-box i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .feature-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-box p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* أقسام الموقع العامة */
+        section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 span {
+            color: var(--primary);
+        }
+
+        .section-title p {
+            color: var(--gray);
+        }
+
+        /* قائمة الطعام */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            direction: rtl;
+        }
+
+        .menu-item {
+            background: var(--dark-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            text-align: right;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-img {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .menu-details {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* قسم QR Code */
+        .qr-section {
+            background: linear-gradient(135deg, #1e1e1e 0%, #111 100%);
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .qr-card {
+            background: var(--dark-card);
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,107,53,0.3);
+        }
+
+        #qrcode {
+            background: white;
+            padding: 15px;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        #qrcode canvas, #qrcode img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* قسم معلومات المطعم */
+        .info-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 40px;
+            align-items: center;
+        }
+
+        .info-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .info-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .info-list li i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        /* إطار الخريطة التفاعلية بالرابط المخصص */
+        .map-wrapper {
+            width: 100%;
+            height: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .map-overlay-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background: transparent;
+        }
+
+        /* تصميم نافذة تسجيل المعلومات (Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--dark-card);
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 53, 0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            position: relative;
+            transform: translateY(-20px);
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: #121212;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            background: #25d366; /* لون واتساب المميز */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-order-btn:hover {
+            background: #1ebd56;
+        }
+
+        /* الفوتر */
+        footer {
+            background: #0b0b0b;
+            padding: 40px 8%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--gray);
+        }
+
+        footer p {
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .info-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <header>
+        <a href="#" class="logo"><i class="fa-solid fa-burger"></i> باسكوتشي <span>كافيه</span></a>
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#menu">قائمة الطعام</a></li>
+                <li><a href="#qr-code">رمز QR</a></li>
+                <li><a href="#about">عن المطعم</a></li>
+                <li><a href="#contact">الموقع وأوقات العمل</a></li>
+            </ul>
+        </nav>
+        <button class="header-btn" onclick="openModal()">اطلب الآن</button>
+    </header>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="rating-badge">
+                <i class="fa-solid fa-star"></i> 4.5 نجوم (ممتاز) | أجواء عصرية
+            </div>
+            <h1>طعم الوجبات السريعة <span>بأجواء عصرية</span></h1>
+            <p>وجهتكم المثالية في مساكن برزة (حاميش). نقدم ألذ الوجبات السريعة الحلال 100%، مناسبة للطلاب والعائلات والسياح!</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-primary">استعرض القائمة</a>
+                <button class="btn btn-outline" onclick="openModal()">احجز طاولة / سفري</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ميزات المطعم -->
+    <div class="features">
+        <div class="feature-box">
+            <i class="fa-solid fa-clock"></i>
+            <h3>دوام يومي طويل</h3>
+            <p>نفتح أبوابنا يومياً من الساعة 10:00 صباحاً وحتى الساعة 2:00 فجراً.</p>
+        </div>
+        <div class="feature-box">
+            <i class="fa-solid fa-utensils"></i>
+            <h3>سفري وطاولات مريحة</h3>
+            <p>خدمة سريعة للسفري وجلسات داخلية مريحة ومناسبة للأطفال والعائلات.</p>
+        </div>
+        <div class="feature-box">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h3>ملتقى الطلاب والسياح</h3>
+            <p>أجواء حيوية وعصرية تناسب طلاب الجامعات والسياح والشباب.</p>
+        </div>
+        <div class="feature-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>أكل حلال 100%</h3>
+            <p>مكونات طازجة ومضمونة لتحضير أشهى الوجبات السريعة.</p>
+        </div>
+    </div>
+
+    <!-- قائمة الطعام -->
+    <section id="menu">
+        <div class="section-title">
+            <h2>قائمة <span>الطعام</span></h2>
+            <p>تشكيلة واسعة من أطيب الوجبات السريعة والمشروبات (حلال 100%)</p>
+        </div>
+
+        <div class="menu-grid">
+            <!-- 1. باسكوتشي سوبر برجر -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="برجر" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>باسكوتشي سوبر برجر</h3>
+                    </div>
+                    <span class="price">سفري / طاولة</span>
+                </div>
+            </div>
+
+            <!-- 2. تشيكن زِنجر كرسبي -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=600&q=80" alt="تشيكن زنجر كريسبي" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>تشيكن زِنجر كرسبي</h3>
+                    </div>
+                    <span class="price">سفري / طاولة</span>
+                </div>
+            </div>
+
+            <!-- 3. وجبة الأطفال السعيدة -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80" alt="وجبة أطفال ناجتس وبطاطا" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>وجبة الأطفال السعيدة</h3>
+                    </div>
+                    <span class="price">ناجتس + بطاطا</span>
+                </div>
+            </div>
+
+            <!-- 4. بطاطا مقلية مقرمشة -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80" alt="بطاطا مقلية" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>بطاطا مقلية مقرمشة</h3>
+                    </div>
+                    <span class="price">سفري / طاولة</span>
+                </div>
+            </div>
+
+            <!-- 5. المشروبات الباردة والمنعشة -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80" alt="مشروبات باردة" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>المشروبات الباردة والمنعشة</h3>
+                    </div>
+                    <span class="price">عصائر / غازيات</span>
+                </div>
+            </div>
+
+            <!-- 6. المشروبات الساخنة -->
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="مشروبات ساخنة" class="menu-img">
+                <div class="menu-details">
+                    <div class="menu-header">
+                        <h3>المشروبات الساخنة</h3>
+                        <p style="color: var(--gray); font-size: 0.85rem; margin-top: 4px;">إسبريسو، كابتشينو، موكا، نسكافيه</p>
+                    </div>
+                    <span class="price">قهوة / ساخن</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم رمز الاستجابة السريعة QR Code -->
+    <section class="qr-section" id="qr-code">
+        <div class="section-title">
+            <h2>امسح رمز <span>QR</span></h2>
+            <p>شارك الموقع أو اعرض القائمة فوراً على هاتفك الذكي داخل المطعم</p>
+        </div>
+        <div class="qr-card">
+            <p style="color: var(--gray); font-size: 0.95rem; margin-bottom: 5px;">وجه كاميرا الهاتف نحو الرمز:</p>
+            <div id="qrcode"></div>
+            <p style="font-weight: 700; color: var(--primary);">باسكوتشي كافيه - مساكن برزة / حاميش</p>
+        </div>
+    </section>
+
+    <!-- عن المطعم والموقع -->
+    <section id="about" style="background: #181818;">
+        <div class="section-title">
+            <h2>عن <span>باسكوتشي كافيه</span></h2>
+            <p>أجواء عصرية تليق بك</p>
+        </div>
+
+        <div class="info-container">
+            <!-- خريطة تفاعلية مرتبطة بالرابط الخاص بك -->
+            <div class="map-wrapper">
+                <a href="https://maps.app.goo.gl/kJ962qv9QCNzRFzA7" target="_blank" class="map-overlay-link" title="انقر لفتح الموقع على الخريطة"></a>
+                <iframe src="https://maps.google.com/maps?q=Damascus+Barzeh+Housing&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <div class="info-text">
+                <h3>وجهتك المفضلة في دمشق</h3>
+                <p>يتميز باسكوتشي كافيه بديكوراته العصرية والمريحة، ليكون المكان الأمثل لطلاب الجامعات للدراسة أو الاستراحة، ولقاءات الأصدقاء، والعائلات برفقة الأطفال، والسياح الباحثين عن جودة الطعام العالية.</p>
+                <ul class="info-list">
+                    <li><i class="fa-solid fa-location-dot"></i> دمشق - مساكن برزة - حاميش</li>
+                    <li><i class="fa-solid fa-clock"></i> يومياً: من 10:00 صباحاً إلى 2:00 فجراً</li>
+                    <li><i class="fa-solid fa-star"></i> التقييم: 4.5 / 5 نجوم بناءً على آراء زوارنا</li>
+                    <li><i class="fa-solid fa-utensils"></i> الخدمات: أكل سفري + طاولات داخلية</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- نافذة تسجيل المعلومات المنبثقة (Modal) -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3>سجل معلومات طلبك</h3>
+            <form id="orderForm" onsubmit="sendToWhatsApp(event)">
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" required placeholder="ادخل اسمك الكريم">
+                </div>
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" required placeholder="09xxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label for="orderType">نوع الطلب / الحجز</label>
+                    <select id="orderType">
+                        <option value="سفري (توصيل / استلام)">سفري (توصيل / استلام)</option>
+                        <option value="حجز طاولة في الكافيه">حجز طاولة في الكافيه</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notes">العنوان أو تفاصيل الطلب</label>
+                    <textarea id="notes" rows="3" placeholder="اكتب تفاصيل طلبك أو رقم الطاولة المفضل..."></textarea>
+                </div>
+                <button type="submit" class="submit-order-btn">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> إرسال الطلب عبر واتساب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer id="contact">
+        <div class="logo" style="justify-content: center; margin-bottom: 15px;">
+            <i class="fa-solid fa-burger"></i> باسكوتشي <span>كافيه</span>
+        </div>
+        <p>جميع الحقوق محفوظة © 2026 باسكوتشي كافيه - مساكن برزة / حاميش، دمشق</p>
+        <p style="font-size: 0.9rem; margin-top: 5px; color: var(--secondary);">متفتحون دائماً لخدمتكم حتى الساعة 2 فجراً</p>
+    </footer>
+
+    <!-- السكربتات (QR + إرسال الواتساب) -->
+    <script>
+        // توليد الـ QR Code
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "https://maps.app.goo.gl/kJ962qv9QCNzRFzA7",
+            width: 180,
+            height: 180,
+            colorDark : "#121212",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // دوال التحكم بالنافذة المنبثقة
+        const modal = document.getElementById('orderModal');
+
+        function openModal() {
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.getElementById('orderForm').reset();
+        }
+
+        // إغلاق النافذة عند النقر خارجها
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // إرسال البيانات مباشرة إلى واتساب
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+
+            // قراءة المدخلات
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const orderType = document.getElementById('orderType').value;
+            const notes = document.getElementById('notes').value || 'لا يوجد';
+
+            // رقم الهاتف المحدد المربوط (بدون أصفار زائدة في البداية حسب صيغة الروابط الدولية)
+            const ownerPhone = "963992971290";
+
+            // صياغة رسالة الواتساب بشكل منظم
+            const text = `*طلب جديد عبر موقع باسكوتشي كافيه* 🍔%0a` +
+                         `--------------------------------%0a` +
+                         `👤 *الاسم:* ${name}%0a` +
+                         `📞 *رقم الهاتف:* ${phone}%0a` +
+                         `📌 *نوع الطلب:* ${orderType}%0a` +
+                         `📝 *التفاصيل/العنوان:* ${notes}%0a` +
+                         `--------------------------------%0a` +
+                         `يرجى تأكيد الطلب للزبون!`;
+
+            // فتح رابط الواتساب مباشرة
+            const whatsappURL = `https://wa.me/${ownerPhone}?text=${text}`;
+            window.open(whatsappURL, '_blank');
+
+            // إغلاق النافذة بعد الإرسال
+            closeModal();
+        }
+    </script>
+
+</body>
+</html>
