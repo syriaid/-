@@ -344,7 +344,7 @@
         }
 
         .modal-price {
-            font-size: 1.1rem;
+            fornt-size: 1.1rem;
             font-weight: 900;
             color: var(--accent-light);
         }
@@ -443,70 +443,60 @@
         <p>اختر القسم واستعرض أطباقنا ومشروباتنا المميزة</p>
     </div>
 
-    <!-- أزرار تبديل الفئات (مشروبات ساخنة، باردة، أطباق رئيسية) -->
+    <!-- أزرار تبديل الفئات (مضافة أيقونة السوشي هنا) -->
     <div class="categories-container">
-        <button class="cat-btn active" onclick="switchTab('hot', this)">
+        <button class="cat-btn active" onclick="switchTab('sushi', this)">
+            <i class="fa-solid fa-fish"></i> سوشي ياباني
+        </button>
+        <button class="cat-btn" onclick="switchTab('meals', this)">
+            <i class="fa-solid fa-utensils"></i> الوجبات والأطباق
+        </button>
+        <button class="cat-btn" onclick="switchTab('hot', this)">
             <i class="fa-solid fa-mug-hot"></i> مشروبات ساخنة
         </button>
         <button class="cat-btn" onclick="switchTab('cold', this)">
             <i class="fa-solid fa-glass-water"></i> مشروبات باردة
         </button>
-        <button class="cat-btn" onclick="switchTab('meals', this)">
-            <i class="fa-solid fa-utensils"></i> الوجبات والأطباق
-        </button>
     </div>
 
-    <!-- 1. قسم المشروبات الساخنة -->
-    <div id="hot" class="menu-section active">
+    <!-- 1. قسم السوشي (القسم الافتراضي الجديد) -->
+    <div id="sushi" class="menu-section active">
         <div class="menu-grid">
-            <div class="item-card" onclick="openDetails('إسبريسو دبل', 'حبوب بن عربية فاخرة محمصة بعناية، مركزة وغنية بالنكهة.', '25,000 ل.س', 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80')">
-                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+            <div class="item-card" onclick="openDetails('كاليفورنيا رول (California Roll)', 'سرطان البحر، أفوكادو، خيار، مغطى ببيض الكافيار ومايونيز حار.', '85,000 ل.س', 'https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
                 <div class="item-content">
-                    <div class="item-title">إسبريسو دبل</div>
-                    <div class="item-price">25,000 ل.س</div>
+                    <div class="item-title">كاليفورنيا رول</div>
+                    <div class="item-price">85,000 ل.س</div>
                 </div>
             </div>
 
-            <div class="item-card" onclick="openDetails('كابتشينو إيطالي', 'إسبريسو غني مع حليب طازج مبستر ورغوة مخملية ناعمة.', '35,000 ل.س', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80')">
-                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+            <div class="item-card" onclick="openDetails('سالمون نيجيري (Salmon Nigiri)', 'شرائح سمك السالمون الطازج والطري فوق وسادة من أرز السوشي المتبل.', '95,000 ل.س', 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
                 <div class="item-content">
-                    <div class="item-title">كابتشينو إيطالي</div>
-                    <div class="item-price">35,000 ل.س</div>
+                    <div class="item-title">سالمون نيجيري</div>
+                    <div class="item-price">95,000 ل.س</div>
                 </div>
             </div>
 
-            <div class="item-card" onclick="openDetails('لاتيه بالشوكولا البيضاء', 'مزيج ساحر من الإسبريسو، الحليب الدافئ وشوكولا بيضاء فاخرة.', '40,000 ل.س', 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80')">
-                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+            <div class="item-card" onclick="openDetails('دراغون رول (Dragon Roll)', 'روبيان مقلي مقرمش، أفوكادو، مغطى بشرائح الأفوكادو الطازجة وصوص الأوناغي الحلو.', '110,000 ل.س', 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
                 <div class="item-content">
-                    <div class="item-title">لاتيه شوكولا بيضاء</div>
-                    <div class="item-price">40,000 ل.س</div>
+                    <div class="item-title">دراغون رول</div>
+                    <div class="item-price">110,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('تونا رول حارة (Spicy Tuna Roll)', 'تونا مفرومة متبلة بصوص الشيلي الحار، بصل أخضر وسمسم.', '90,000 ل.س', 'https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">تونا رول حارة</div>
+                    <div class="item-price">90,000 ل.س</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. قسم المشروبات الباردة -->
-    <div id="cold" class="menu-section">
-        <div class="menu-grid">
-            <div class="item-card" onclick="openDetails('أيس سبانيش لاتيه', 'إسبريسو بارد، حليب مكثف محلى خاص، مكعبات ثلج ورشة قرفة.', '42,000 ل.س', 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80')">
-                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
-                <div class="item-content">
-                    <div class="item-title">أيس سبانيش لاتيه</div>
-                    <div class="item-price">42,000 ل.س</div>
-                </div>
-            </div>
-
-            <div class="item-card" onclick="openDetails('موهيتو كالي الخاص', 'نعناع طازج، ليمون، نكهة التوت الأزرق الفاخرة ومياه غازية منعشة.', '38,000 ل.س', 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80')">
-                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
-                <div class="item-content">
-                    <div class="item-title">موهيتو كالي الخاص</div>
-                    <div class="item-price">38,000 ل.س</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. قسم الوجبات والأطباق الرئيسية -->
+    <!-- 2. قسم الوجبات والأطباق الرئيسية -->
     <div id="meals" class="menu-section">
         <div class="menu-grid">
             <div class="item-card" onclick="openDetails('بَيكد لازانيا (Baked Lasagna)', 'طبقات مكرونة لازانيا إيطالية أصلية، لحم مفروم بصوص البشاميل وجبنة موتشاريلا محمرة بالفرن.', '75,000 ل.س', 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=400&q=80')">
@@ -538,6 +528,56 @@
                 <div class="item-content">
                     <div class="item-title">سلطة الجرجير</div>
                     <div class="item-price">45,000 ل.س</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. قسم المشروبات الساخنة -->
+    <div id="hot" class="menu-section">
+        <div class="menu-grid">
+            <div class="item-card" onclick="openDetails('إسبريسو دبل', 'حبوب بن عربية فاخرة محمصة بعناية، مركزة وغنية بالنكهة.', '25,000 ل.س', 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">إسبريسو دبل</div>
+                    <div class="item-price">25,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('كابتشينو إيطالي', 'إسبريسو غني مع حليب طازج مبستر ورغوة مخملية ناعمة.', '35,000 ل.س', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">كابتشينو إيطالي</div>
+                    <div class="item-price">35,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('لاتيه بالشوكولا البيضاء', 'مزيج ساحر من الإسبريسو، الحليب الدافئ وشوكولا بيضاء فاخرة.', '40,000 ل.س', 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">لاتيه شوكولا بيضاء</div>
+                    <div class="item-price">40,000 ل.س</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. قسم المشروبات الباردة -->
+    <div id="cold" class="menu-section">
+        <div class="menu-grid">
+            <div class="item-card" onclick="openDetails('أيس سبانيش لاتيه', 'إسبريسو بارد، حليب مكثف محلى خاص، مكعبات ثلج ورشة قرفة.', '42,000 ل.س', 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">أيس سبانيش لاتيه</div>
+                    <div class="item-price">42,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('موهيتو كالي الخاص', 'نعناع طازج، ليمون، نكهة التوت الأزرق الفاخرة ومياه غازية منعشة.', '38,000 ل.س', 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">موهيتو كالي الخاص</div>
+                    <div class="item-price">38,000 ل.س</div>
                 </div>
             </div>
         </div>
@@ -583,7 +623,7 @@
 
     <!-- الأكواد البرمجية للتحكم بالتنقل والـ Modal والواتساب -->
     <script>
-        // تبديل التبويبات (مشروبات ساخنة، باردة، أطباق)
+        // تبديل التبويبات
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.menu-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
@@ -633,7 +673,7 @@
         // إرسال الطلب عبر الواتساب
         function orderOnWhatsApp() {
             const phone = "963113354086"; 
-            const text = `*طلب جديد من منيو كالي كافيه* ☕🍽️%0a` +
+            const text = `*طلب جديد من منيو كالي كافيه* ☕🍣%0a` +
                          `--------------------------------%0a` +
                          `✨ *الطلب:* ${currentItemName}%0a` +
                          `💰 *السعر:* ${mPrice.innerText}%0a` +
