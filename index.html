@@ -36,7 +36,7 @@
             padding-bottom: 40px;
         }
 
-        /* الهيدر والشعار */
+        /* الهيدر والشعار (تم التعديل لضمان التمركز الدقيق) */
         header {
             background: rgba(18, 20, 26, 0.95);
             backdrop-filter: blur(10px);
@@ -44,7 +44,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 10px 5%;
+            height: 65px;
+            padding: 0 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,7 +56,8 @@
         .brand {
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -89,6 +91,7 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            z-index: 2;
         }
 
         .social-icon-btn {
@@ -129,7 +132,7 @@
 
         /* قسم الترحيب */
         .hero {
-            padding: 95px 5% 15px 5%;
+            padding: 85px 5% 15px 5%;
             text-align: center;
         }
 
@@ -597,7 +600,7 @@
 
     <!-- الهيدر -->
     <header>
-        <div class="header-actions" style="visibility: hidden;">
+        <div class="header-actions" style="opacity: 0; pointer-events: none;">
             <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
         </div>
         
@@ -904,7 +907,7 @@
 
         // نظام التحكم بالمسؤول (Admin Mode)
         let isAdmin = false;
-        const ADMIN_PASSWORD = "1234"; // كلمة المرور الافتراضية (يمكنك تغييرها هنا)
+        const ADMIN_PASSWORD = "1234"; // كلمة المرور الافتراضية
 
         function toggleAdminMode() {
             if (!isAdmin) {
@@ -966,19 +969,16 @@
 
             reviewsList.insertAdjacentHTML('afterbegin', newReviewHTML);
 
-            // تفريغ الحقول
             nameInput.value = '';
             textInput.value = '';
         }
 
-        // حماية بسيطة من الإدخال
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
 
-        // توليد QR Code للموقع تلقائياً
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             text: window.location.href,
             width: 120,
@@ -988,7 +988,6 @@
             correctLevel : QRCode.CorrectLevel.H
         });
 
-        // إرسال الطلب عبر الواتساب
         function orderOnWhatsApp() {
             const phone = "963113354086"; 
             const text = `*طلب جديد من منيو كالي كافيه* ☕🍣%0a` +
