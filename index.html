@@ -80,6 +80,30 @@
             font-weight: 400;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .social-icon-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .social-icon-btn:hover {
+            background: var(--accent-blue);
+        }
+
         .call-btn {
             background: var(--accent-blue);
             color: white;
@@ -89,6 +113,9 @@
             font-weight: 700;
             font-size: 0.8rem;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .call-btn:hover {
@@ -118,7 +145,7 @@
             gap: 10px;
             padding: 15px 5%;
             overflow-x: auto;
-            scrollbar-width: none; /* إخفاء شريط التمرير */
+            scrollbar-width: none;
         }
         .categories-container::-webkit-scrollbar {
             display: none;
@@ -161,13 +188,13 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين متناسقين للجوال */
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
 
         @media(max-width: 400px) {
             .menu-grid {
-                grid-template-columns: 1fr; /* عمود واحد للشاشات الصغيرة جداً إن أردت، أو يبقى عمودين كما طلبت */
+                grid-template-columns: 1fr;
             }
         }
 
@@ -365,11 +392,29 @@
             margin: 0 auto;
         }
 
+        .footer-social {
+            margin-bottom: 12px;
+        }
+
+        .footer-social a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
         footer {
             text-align: center;
             color: var(--text-gray);
             font-size: 0.75rem;
-            margin-top: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -384,7 +429,12 @@
                 <span>Italian Japanese</span>
             </div>
         </div>
-        <a href="tel:+963113354086" class="call-btn"><i class="fa-solid fa-phone"></i> اتصال</a>
+        <div class="header-actions">
+            <a href="https://www.instagram.com/calicafe.sy" target="_blank" class="social-icon-btn" title="حسابنا على انستغرام">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="tel:+963113354086" class="call-btn"><i class="fa-solid fa-phone"></i> اتصال</a>
+        </div>
     </header>
 
     <!-- الترحيب -->
@@ -467,7 +517,7 @@
                 </div>
             </div>
 
-            <div class="item-card" onclick="openDetails('سالمون بالسمسم (Sesame Salmon)', 'فيليه سالمون طازج مشوي بكراميل الصويا والسمسم، يוגدم مع هريس البطاطس الناعم.', '95,000 ل.س', 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=80')">
+            <div class="item-card" onclick="openDetails('سالمون بالسمسم (Sesame Salmon)', 'فيليه سالمون طازج مشوي بكراميل الصويا والسمسم، يُقدم مع هريس البطاطس الناعم.', '95,000 ل.س', 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=80')">
                 <div class="item-img-box"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
                 <div class="item-content">
                     <div class="item-title">سالمون بالسمسم</div>
@@ -523,6 +573,11 @@
     </div>
 
     <footer>
+        <div class="footer-social">
+            <a href="https://www.instagram.com/calicafe.sy" target="_blank">
+                <i class="fa-brands fa-instagram"></i> تابعنا على انستغرام (@calicafe.sy)
+            </a>
+        </div>
         <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
@@ -530,11 +585,9 @@
     <script>
         // تبديل التبويبات (مشروبات ساخنة، باردة، أطباق)
         function switchTab(tabId, btnElement) {
-            // إخفاء الكل
             document.querySelectorAll('.menu-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
 
-            // إظهار المطلوب
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
         }
@@ -579,7 +632,7 @@
 
         // إرسال الطلب عبر الواتساب
         function orderOnWhatsApp() {
-            const phone = "963113354086"; // رقم الحجز المأخوذ من حسابهم
+            const phone = "963113354086"; 
             const text = `*طلب جديد من منيو كالي كافيه* ☕🍽️%0a` +
                          `--------------------------------%0a` +
                          `✨ *الطلب:* ${currentItemName}%0a` +
