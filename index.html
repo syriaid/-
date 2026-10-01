@@ -44,7 +44,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 12px 5%;
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -53,31 +53,36 @@
         }
 
         .brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-align: center;
         }
 
         .brand-logo {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 2px solid var(--accent-blue);
             object-fit: cover;
         }
 
         .brand-name {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 900;
             letter-spacing: 0.5px;
             color: var(--text-white);
+            line-height: 1.2;
         }
 
         .brand-name span {
             color: var(--accent-light);
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             display: block;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         .header-actions {
@@ -592,13 +597,18 @@
 
     <!-- الهيدر -->
     <header>
+        <div class="header-actions" style="visibility: hidden;">
+            <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        
         <div class="brand">
             <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=150&q=80" alt="Cali Café" class="brand-logo">
             <div class="brand-name">
-                Cali Café
-                <span>Italian Japanese</span>
+                مسؤول
+                <span>CALI CAFE</span>
             </div>
         </div>
+
         <div class="header-actions">
             <a href="https://www.instagram.com/calicafe.sy" target="_blank" class="social-icon-btn" title="حسابنا على انستغرام">
                 <i class="fa-brands fa-instagram"></i>
