@@ -36,7 +36,7 @@
             padding-bottom: 40px;
         }
 
-        /* الهيدر والشعار (تم التعديل لضمان التمركز الدقيق) */
+        /* الهيدر والشعار */
         header {
             background: rgba(18, 20, 26, 0.95);
             backdrop-filter: blur(10px);
@@ -147,7 +147,7 @@
             font-size: 0.85rem;
         }
 
-        /* أزرار الفئات (التصنيفات) */
+        /* أزرار الفئات */
         .categories-container {
             display: flex;
             gap: 10px;
@@ -369,6 +369,83 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        /* نافذة كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) */
+        .admin-modal-box {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 340px;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        .admin-modal-box h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: white;
+        }
+
+        .admin-modal-box p {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+        }
+
+        .admin-modal-box input {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .admin-modal-box input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .admin-modal-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .admin-modal-btns button {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-confirm {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background: #2563eb;
+        }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-gray);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
         }
 
         /* قسم التقييمات والتعليقات ولوحة التحكم */
@@ -766,7 +843,7 @@
         </div>
     </div>
 
-    <!-- نافذة تفاصيل الطلب والمكونات -->
+    <!-- نافذة تفاصيل العنصر (Modal) -->
     <div class="modal-overlay" id="itemModal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -781,6 +858,19 @@
                         <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i> اطلب الآن
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدخال كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="admin-modal-box">
+            <h3>تسجيل دخول المسؤول</h3>
+            <p>الرجاء إدخال كلمة مرور المسؤول للمتابعة:</p>
+            <input type="password" id="adminPasswordInput" placeholder="كلمة المرور..." autofocus>
+            <div class="admin-modal-btns">
+                <button class="btn-cancel" onclick="closeAdminModal()">إلغاء</button>
+                <button class="btn-confirm" onclick="submitAdminPassword()">حسناً</button>
             </div>
         </div>
     </div>
@@ -861,7 +951,7 @@
             btnElement.classList.add('active');
         }
 
-        // نافذة التفاصيل والمكونات
+        // نافذة تفاصيل العنصر
         const modal = document.getElementById('itemModal');
         const mTitle = document.getElementById('mTitle');
         const mDesc = document.getElementById('mDesc');
@@ -883,9 +973,57 @@
             modal.classList.remove('active');
         }
 
+        // نافذة كلمة المرور المخصصة للمسؤول
+        const adminModal = document.getElementById('adminModal');
+        const adminPasswordInput = document.getElementById('adminPasswordInput');
+        let isAdmin = false;
+        const ADMIN_PASSWORD = "1234"; // كلمة المرور
+
+        function toggleAdminMode() {
+            if (!isAdmin) {
+                adminPasswordInput.value = '';
+                adminModal.classList.add('active');
+                setTimeout(() => adminPasswordInput.focus(), 100);
+            } else {
+                isAdmin = false;
+                document.body.classList.remove('admin-mode');
+                document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
+                alert('تم إيقاف وضع المسؤول.');
+            }
+        }
+
+        function closeAdminModal() {
+            adminModal.classList.remove('active');
+        }
+
+        function submitAdminPassword() {
+            let pass = adminPasswordInput.value;
+            if (pass === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.body.classList.add('admin-mode');
+                document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
+                closeAdminModal();
+                alert('تم تفعيل وضع المسؤول بنجاح! يمكنك الآن حذف أي تعليق.');
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+                adminPasswordInput.value = '';
+                adminPasswordInput.focus();
+            }
+        }
+
+        // السماح بالضغط على Enter لتأكيد كلمة المرور
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitAdminPassword();
+            }
+        });
+
         window.onclick = function(event) {
             if (event.target == modal) {
                 closeModal();
+            }
+            if (event.target == adminModal) {
+                closeAdminModal();
             }
         }
 
@@ -904,29 +1042,6 @@
                 });
             });
         });
-
-        // نظام التحكم بالمسؤول (Admin Mode)
-        let isAdmin = false;
-        const ADMIN_PASSWORD = "1234"; // كلمة المرور الافتراضية
-
-        function toggleAdminMode() {
-            if (!isAdmin) {
-                let pass = prompt("الرجاء إدخال كلمة مرور المسؤول:");
-                if (pass === ADMIN_PASSWORD) {
-                    isAdmin = true;
-                    document.body.classList.add('admin-mode');
-                    document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
-                    alert('تم تفعيل وضع المسؤول بنجاح! يمكنك الآن حذف أي تعليق.');
-                } else if (pass !== null) {
-                    alert('كلمة المرور غير صحيحة!');
-                }
-            } else {
-                isAdmin = false;
-                document.body.classList.remove('admin-mode');
-                document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
-                alert('تم إيقاف وضع المسؤول.');
-            }
-        }
 
         // حذف تعليق
         function deleteReview(buttonElement) {
