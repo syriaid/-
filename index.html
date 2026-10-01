@@ -344,7 +344,7 @@
         }
 
         .modal-price {
-            fornt-size: 1.1rem;
+            font-size: 1.1rem;
             font-weight: 900;
             color: var(--accent-light);
         }
@@ -363,18 +363,130 @@
             gap: 6px;
         }
 
+        /* قسم التقييمات والآراء */
+        .reviews-section {
+            max-width: 800px;
+            margin: 30px auto 10px auto;
+            padding: 0 5%;
+        }
+
+        .reviews-box {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .reviews-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(18, 20, 26, 0.5);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .star-rating .fa-star.active {
+            color: #f59e0b;
+        }
+
+        .review-form input, .review-form textarea {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .review-form textarea {
+            resize: none;
+            height: 70px;
+        }
+
+        .submit-review-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-review-btn:hover {
+            background: #2563eb;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .review-item {
+            background: rgba(255,255,255,0.03);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .review-user {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .review-stars {
+            color: #f59e0b;
+            font-size: 0.75rem;
+        }
+
+        .review-text {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
         /* قسم QR Code والموقع */
         .info-area {
             text-align: center;
-            padding: 40px 5% 20px 5%;
-            margin-top: 20px;
+            padding: 20px 5% 10px 5%;
+            margin-top: 10px;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .qr-box {
             background: var(--card-bg);
             max-width: 260px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 15px auto;
             padding: 15px;
             border-radius: 12px;
             border: 1px solid rgba(59, 130, 246, 0.3);
@@ -443,7 +555,7 @@
         <p>اختر القسم واستعرض أطباقنا ومشروباتنا المميزة</p>
     </div>
 
-    <!-- أزرار تبديل الفئات (مضافة أيقونة السوشي هنا) -->
+    <!-- أزرار تبديل الفئات -->
     <div class="categories-container">
         <button class="cat-btn active" onclick="switchTab('sushi', this)">
             <i class="fa-solid fa-fish"></i> سوشي ياباني
@@ -459,7 +571,7 @@
         </button>
     </div>
 
-    <!-- 1. قسم السوشي (القسم الافتراضي الجديد) -->
+    <!-- 1. قسم السوشي -->
     <div id="sushi" class="menu-section active">
         <div class="menu-grid">
             <div class="item-card" onclick="openDetails('كاليفورنيا رول (California Roll)', 'سرطان البحر، أفوكادو، خيار، مغطى ببيض الكافيار ومايونيز حار.', '85,000 ل.س', 'https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80')">
@@ -602,6 +714,45 @@
         </div>
     </div>
 
+    <!-- قسم التقييمات والتعليقات -->
+    <section class="reviews-section">
+        <div class="reviews-box">
+            <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> تقييمات الزبائن</h3>
+            
+            <!-- نموذج إضافة تعليق -->
+            <div class="review-form">
+                <div class="star-rating" id="starRating">
+                    <i class="fa-solid fa-star active" data-value="1"></i>
+                    <i class="fa-solid fa-star active" data-value="2"></i>
+                    <i class="fa-solid fa-star active" data-value="3"></i>
+                    <i class="fa-solid fa-star active" data-value="4"></i>
+                    <i class="fa-solid fa-star active" data-value="5"></i>
+                </div>
+                <input type="text" id="reviewerName" placeholder="اسمك الكريم...">
+                <textarea id="reviewText" placeholder="اكتب تعليقك أو تجربتك معنا..."></textarea>
+                <button class="submit-review-btn" onclick="addReview()">إضافة التقييم</button>
+            </div>
+
+            <!-- قائمة التعليقات -->
+            <div class="reviews-list" id="reviewsList">
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-user">محمد الأحمد</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <div class="review-text">الأكل طازج وطعم السوشي خرافي، المكان جداً فخم وراقي!</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-user">سارة خالد</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <div class="review-text">أفضل كافيه إيطالي ياباني، اللاتيه واللازانيا بتاخد العقل.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- قسم الـ QR Code والموقع -->
     <div class="info-area">
         <h3 style="font-size: 1rem; margin-bottom: 4px;">شارك منيو كالي كافيه</h3>
@@ -621,7 +772,7 @@
         <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- الأكواد البرمجية للتحكم بالتنقل والـ Modal والواتساب -->
+    <!-- الأكواد البرمجية للتحكم بالتنقل، المودال، التقييمات، والواتساب -->
     <script>
         // تبديل التبويبات
         function switchTab(tabId, btnElement) {
@@ -658,6 +809,62 @@
             if (event.target == modal) {
                 closeModal();
             }
+        }
+
+        // تفاعلية النجوم للتقييم
+        let selectedStars = 5;
+        const stars = document.querySelectorAll('#starRating .fa-star');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedStars = parseInt(this.getAttribute('data-value'));
+                stars.forEach((s, index) => {
+                    if (index < selectedStars) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // إضافة تقييم جديد
+        function addReview() {
+            const nameInput = document.getElementById('reviewerName');
+            const textInput = document.getElementById('reviewText');
+            const reviewsList = document.getElementById('reviewsList');
+
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!name || !text) {
+                alert('الرجاء إدخال الاسم والتعليق قبل الإرسال.');
+                return;
+            }
+
+            let starsStr = '★'.repeat(selectedStars) + '☆'.repeat(5 - selectedStars);
+
+            const newReviewHTML = `
+                <div class="review-item" style="animation: fadeIn 0.4s ease;">
+                    <div class="review-header">
+                        <span class="review-user">${escapeHTML(name)}</span>
+                        <span class="review-stars">${starsStr}</span>
+                    </div>
+                    <div class="review-text">${escapeHTML(text)}</div>
+                </div>
+            `;
+
+            reviewsList.insertAdjacentHTML('afterbegin', newReviewHTML);
+
+            // تفريغ الحقول
+            nameInput.value = '';
+            textInput.value = '';
+        }
+
+        // حماية بسيطة من الإدخال
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
 
         // توليد QR Code للموقع تلقائياً
