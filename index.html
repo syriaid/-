@@ -371,7 +371,7 @@
             gap: 6px;
         }
 
-        /* نافذة إدخال كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) */
+        /* نافذة إدخال كلمة مرور المسؤول المخصصة */
         .admin-modal-box {
             background: var(--card-bg);
             width: 100%;
@@ -453,7 +453,7 @@
             color: white;
         }
 
-        /* نافذة التنبيه الأنيقة المخصصة (بدل الـ alert التقليدية) */
+        /* نافذة التنبيه الأنيقة المخصصة (تتوسط الشاشة للنجاح أو الإيقاف) */
         .custom-alert-box {
             background: var(--card-bg);
             width: 100%;
@@ -477,6 +477,11 @@
             justify-content: center;
             font-size: 1.5rem;
             margin: 0 auto 15px auto;
+        }
+
+        .custom-alert-icon.info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
         }
 
         .custom-alert-box h3 {
@@ -937,14 +942,14 @@
         </div>
     </div>
 
-    <!-- نافذة التنبيه الأنيقة المخصصة لنجاح تسجيل الدخول (بدل الـ alert التقليدية) -->
+    <!-- نافذة التنبيه الأنيقة المخصصة (تستخدم للنجاح والإيقاف) -->
     <div class="modal-overlay" id="customAlertModal">
         <div class="custom-alert-box">
-            <div class="custom-alert-icon">
-                <i class="fa-solid fa-check"></i>
+            <div class="custom-alert-icon" id="alertIconBox">
+                <i class="fa-solid fa-check" id="alertIconElem"></i>
             </div>
-            <h3>تم تفعيل وضع المسؤول بنجاح!</h3>
-            <p>يمكنك الآن حذف أي تعليق بسهولة.</p>
+            <h3 id="alertTitle">تم تفعيل وضع المسؤول بنجاح!</h3>
+            <p id="alertDesc">يمكنك الآن حذف أي تعليق بسهولة.</p>
             <button class="custom-alert-btn" onclick="closeCustomAlert()">حسناً</button>
         </div>
     </div>
@@ -1051,6 +1056,11 @@
         const adminModal = document.getElementById('adminModal');
         const adminPasswordInput = document.getElementById('adminPasswordInput');
         const customAlertModal = document.getElementById('customAlertModal');
+        const alertTitle = document.getElementById('alertTitle');
+        const alertDesc = document.getElementById('alertDesc');
+        const alertIconBox = document.getElementById('alertIconBox');
+        const alertIconElem = document.getElementById('alertIconElem');
+
         let isAdmin = false;
         const ADMIN_PASSWORD = "1234"; // كلمة المرور
 
@@ -1063,7 +1073,13 @@
                 isAdmin = false;
                 document.body.classList.remove('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
-                alert('تم إيقاف وضع المسؤول.');
+                
+                // إظهار صندوق منبثق أنيق لإيقاف وضع المسؤول
+                alertTitle.innerText = "تم إيقاف وضع المسؤول";
+                alertDesc.innerText = "تم خروجك من لوحة التحكم بنجاح.";
+                alertIconBox.className = "custom-alert-icon info";
+                alertIconElem.className = "fa-solid fa-lock";
+                customAlertModal.classList.add('active');
             }
         }
 
@@ -1071,7 +1087,16 @@
             adminModal.classList.remove('active');
         }
 
-        function showCustomAlert() {
+        function showCustomAlert(title, desc, isInfo = false) {
+            alertTitle.innerText = title;
+            alertDesc.innerText = desc;
+            if (isInfo) {
+                alertIconBox.className = "custom-alert-icon info";
+                alertIconElem.className = "fa-solid fa-lock";
+            } else {
+                alertIconBox.className = "custom-alert-icon";
+                alertIconElem.className = "fa-solid fa-check";
+            }
             customAlertModal.classList.add('active');
         }
 
@@ -1086,7 +1111,7 @@
                 document.body.classList.add('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
                 closeAdminModal();
-                showCustomAlert(); // إظهار التنبيه الأنيق المتوسط للشاشة
+                showCustomAlert("تم تفعيل وضع المسؤول بنجاح!", "يمكنك الآن حذف أي تعليق بسهولة.");
             } else {
                 alert('كلمة المرور غير صحيحة!');
                 adminPasswordInput.value = '';
