@@ -1185,7 +1185,7 @@
                 closeAdminModal();
                 showSuccessAlert("تم تفعيل وضع المسؤول بنجاح!", "يمكنك الآن حذف أي تعليق بسهولة.");
             } else {
-                alert('كلمة المرور غير صحيحة!');
+                showInfoAlert("خطأ في كلمة المرور", "كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى.");
                 adminPasswordInput.value = '';
                 adminPasswordInput.focus();
             }
@@ -1234,12 +1234,12 @@
             const text = textInput.value.trim();
 
             if (!name || !text) {
-                alert('الرجاء إدخال الاسم والتعليق قبل الإرسال.');
+                showInfoAlert("تنبيه هام", "الرجاء إدخال الاسم والتعليق قبل الإرسال.");
                 return;
             }
 
             if (!window.fbDB) {
-                alert('جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة.');
+                showInfoAlert("تنبيه الاتصال", "جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة.");
                 return;
             }
 
@@ -1252,9 +1252,10 @@
             }).then(() => {
                 nameInput.value = '';
                 textInput.value = '';
+                showSuccessAlert("تم بنجاح", "تم إضافة تعليقك ونشره في القائمة فوراً!");
             }).catch((error) => {
                 console.error("خطأ أثناء الإرسال: ", error);
-                alert('حدث خطأ أثناء إرسال التعليق.');
+                showInfoAlert("خطأ", "حدث خطأ أثناء إرسال التعليق.");
             });
         }
 
