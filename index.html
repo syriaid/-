@@ -371,7 +371,7 @@
             gap: 6px;
         }
 
-        /* نافذة إدخال كلمة مرور المسؤول المخصصة */
+        /* نافذة إدخال كلمة مرور المسؤول */
         .admin-modal-box {
             background: var(--card-bg);
             width: 100%;
@@ -453,7 +453,7 @@
             color: white;
         }
 
-        /* نافذة التنبيه الأنيقة المخصصة (تتوسط الشاشة للنجاح أو الإيقاف) */
+        /* نافذة التنبيهات المخصصة */
         .custom-alert-box {
             background: var(--card-bg);
             width: 100%;
@@ -484,6 +484,11 @@
             color: var(--accent-blue);
         }
 
+        .custom-alert-icon.danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
         .custom-alert-box h3 {
             font-size: 1.05rem;
             font-weight: 800;
@@ -498,21 +503,37 @@
             line-height: 1.4;
         }
 
-        .custom-alert-btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            width: 100%;
+        .custom-alert-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .custom-alert-btns button {
+            flex: 1;
             padding: 10px;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
+            border: none;
             transition: 0.3s;
         }
 
-        .custom-alert-btn:hover {
+        .btn-alert-ok {
+            background: var(--accent-blue);
+            color: white;
+            width: 100%;
+        }
+        .btn-alert-ok:hover {
             background: #2563eb;
+        }
+
+        .btn-alert-danger {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-alert-danger:hover {
+            background: #dc2626;
         }
 
         /* قسم التقييمات والتعليقات ولوحة التحكم */
@@ -929,7 +950,7 @@
         </div>
     </div>
 
-    <!-- نافذة إدخال كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) -->
+    <!-- نافذة إدخال كلمة مرور المسؤول -->
     <div class="modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <h3>تسجيل دخول مسؤول</h3>
@@ -942,7 +963,7 @@
         </div>
     </div>
 
-    <!-- نافذة التنبيه الأنيقة المخصصة (تستخدم للنجاح والإيقاف) -->
+    <!-- نافذة التنبيه والتأكيد المخصصة -->
     <div class="modal-overlay" id="customAlertModal">
         <div class="custom-alert-box">
             <div class="custom-alert-icon" id="alertIconBox">
@@ -950,7 +971,9 @@
             </div>
             <h3 id="alertTitle">تم تفعيل وضع المسؤول بنجاح!</h3>
             <p id="alertDesc">يمكنك الآن حذف أي تعليق بسهولة.</p>
-            <button class="custom-alert-btn" onclick="closeCustomAlert()">حسناً</button>
+            <div id="alertButtonsContainer">
+                <button class="custom-alert-btn btn-alert-ok" id="alertOkBtn" onclick="closeCustomAlert()">حسناً</button>
+            </div>
         </div>
     </div>
 
@@ -981,7 +1004,7 @@
             <!-- قائمة التعليقات -->
             <div class="reviews-list" id="reviewsList">
                 <div class="review-item">
-                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
+                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">محمد الأحمد</span>
                         <span class="review-stars">★★★★★</span>
@@ -989,7 +1012,7 @@
                     <div class="review-text">الأكل طازج وطعم السوشي خرافي، المكان جداً فخم وراقي!</div>
                 </div>
                 <div class="review-item">
-                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
+                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">سارة خالد</span>
                         <span class="review-stars">★★★★★</span>
@@ -1052,7 +1075,7 @@
             modal.classList.remove('active');
         }
 
-        // نافذة كلمة المرور المخصصة للمسؤول
+        // نافذة كلمة المرور المخصصة للمسؤول والتنبيهات
         const adminModal = document.getElementById('adminModal');
         const adminPasswordInput = document.getElementById('adminPasswordInput');
         const customAlertModal = document.getElementById('customAlertModal');
@@ -1060,9 +1083,11 @@
         const alertDesc = document.getElementById('alertDesc');
         const alertIconBox = document.getElementById('alertIconBox');
         const alertIconElem = document.getElementById('alertIconElem');
+        const alertButtonsContainer = document.getElementById('alertButtonsContainer');
 
         let isAdmin = false;
         const ADMIN_PASSWORD = "1234"; // كلمة المرور
+        let pendingReviewItem = null; // تخزين التعليق المراد حذفه مؤقتاً
 
         function toggleAdminMode() {
             if (!isAdmin) {
@@ -1074,12 +1099,7 @@
                 document.body.classList.remove('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
                 
-                // إظهار صندوق منبثق أنيق لإيقاف وضع المسؤول
-                alertTitle.innerText = "تم إيقاف وضع المسؤول";
-                alertDesc.innerText = "تم خروجك من لوحة التحكم بنجاح.";
-                alertIconBox.className = "custom-alert-icon info";
-                alertIconElem.className = "fa-solid fa-lock";
-                customAlertModal.classList.add('active');
+                showInfoAlert("تم إيقاف وضع المسؤول", "تم خروجك من لوحة التحكم بنجاح.");
             }
         }
 
@@ -1087,17 +1107,51 @@
             adminModal.classList.remove('active');
         }
 
-        function showCustomAlert(title, desc, isInfo = false) {
+        function showInfoAlert(title, desc) {
             alertTitle.innerText = title;
             alertDesc.innerText = desc;
-            if (isInfo) {
-                alertIconBox.className = "custom-alert-icon info";
-                alertIconElem.className = "fa-solid fa-lock";
-            } else {
-                alertIconBox.className = "custom-alert-icon";
-                alertIconElem.className = "fa-solid fa-check";
-            }
+            alertIconBox.className = "custom-alert-icon info";
+            alertIconElem.className = "fa-solid fa-lock";
+            alertButtonsContainer.innerHTML = `<button class="custom-alert-btn btn-alert-ok" onclick="closeCustomAlert()">حسناً</button>`;
             customAlertModal.classList.add('active');
+        }
+
+        function showSuccessAlert(title, desc) {
+            alertTitle.innerText = title;
+            alertDesc.innerText = desc;
+            alertIconBox.className = "custom-alert-icon";
+            alertIconElem.className = "fa-solid fa-check";
+            alertButtonsContainer.innerHTML = `<button class="custom-alert-btn btn-alert-ok" onclick="closeCustomAlert()">حسناً</button>`;
+            customAlertModal.classList.add('active');
+        }
+
+        // نافذة تأكيد الحذف بتصميم أنيق
+        function promptDeleteReview(buttonElement) {
+            pendingReviewItem = buttonElement.closest('.review-item');
+            alertTitle.innerText = "تأكيد الحذف";
+            alertDesc.innerText = "هل أنت متأكد من حذف هذا التعليق؟";
+            alertIconBox.className = "custom-alert-icon danger";
+            alertIconElem.className = "fa-solid fa-trash-can";
+            
+            alertButtonsContainer.innerHTML = `
+                <div class="custom-alert-btns">
+                    <button class="btn-cancel" onclick="closeCustomAlert()">إلغاء</button>
+                    <button class="btn-alert-danger" onclick="confirmDeleteReview()">حذف</button>
+                </div>
+            `;
+            customAlertModal.classList.add('active');
+        }
+
+        function confirmDeleteReview() {
+            if (pendingReviewItem) {
+                pendingReviewItem.style.transition = '0.3s';
+                pendingReviewItem.style.opacity = '0';
+                setTimeout(() => {
+                    pendingReviewItem.remove();
+                    pendingReviewItem = null;
+                }, 300);
+            }
+            closeCustomAlert();
         }
 
         function closeCustomAlert() {
@@ -1111,7 +1165,7 @@
                 document.body.classList.add('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
                 closeAdminModal();
-                showCustomAlert("تم تفعيل وضع المسؤول بنجاح!", "يمكنك الآن حذف أي تعليق بسهولة.");
+                showSuccessAlert("تم تفعيل وضع المسؤول بنجاح!", "يمكنك الآن حذف أي تعليق بسهولة.");
             } else {
                 alert('كلمة المرور غير صحيحة!');
                 adminPasswordInput.value = '';
@@ -1119,7 +1173,6 @@
             }
         }
 
-        // السماح بالضغط على Enter لتأكيد كلمة المرور
         adminPasswordInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 submitAdminPassword();
@@ -1154,18 +1207,6 @@
             });
         });
 
-        // حذف تعليق
-        function deleteReview(buttonElement) {
-            if (confirm('هل أنت متأكد من حذف هذا التعليق؟')) {
-                const reviewItem = buttonElement.closest('.review-item');
-                reviewItem.style.transition = '0.3s';
-                reviewItem.style.opacity = '0';
-                setTimeout(() => {
-                    reviewItem.remove();
-                }, 300);
-            }
-        }
-
         // إضافة تقييم جديد
         function addReview() {
             const nameInput = document.getElementById('reviewerName');
@@ -1184,7 +1225,7 @@
 
             const newReviewHTML = `
                 <div class="review-item" style="animation: fadeIn 0.4s ease;">
-                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
+                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">${escapeHTML(name)}</span>
                         <span class="review-stars">${starsStr}</span>
