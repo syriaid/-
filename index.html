@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>باسكوتشي كافيه | Paskootchi Cafe</title>
-    <!-- مكتبة الأيقونات والخطوط -->
+    <title>Cali Café | الإيطالي الياباني</title>
+    <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- مكتبة توليد QR Code تلقائياً -->
+    <!-- مكتبة QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         :root {
-            --primary-red: #e53935;
-            --card-bg: #1e1e1e;
-            --dark: #121212;
-            --light: #ffffff;
-            --gray: #b0b0b0;
+            --bg-dark: #12141a;
+            --card-bg: #1a1d26;
+            --accent-blue: #3b82f6;
+            --accent-light: #60a5fa;
+            --text-white: #ffffff;
+            --text-gray: #9ca3af;
         }
 
         * {
@@ -28,278 +29,205 @@
         }
 
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            line-height: 1.5;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
             direction: rtl;
             text-align: right;
+            padding-bottom: 40px;
         }
 
-        /* شريط التنقل العلوي */
+        /* الهيدر والشعار */
         header {
+            background: rgba(18, 20, 26, 0.95);
+            backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(10px);
+            padding: 12px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 4%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        .logo {
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: var(--primary-red);
-            text-decoration: none;
+        .brand {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
         }
 
-        .logo span {
-            color: var(--light);
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-blue);
+            object-fit: cover;
         }
 
-        .header-btn {
-            background: var(--primary-red);
+        .brand-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: var(--text-white);
+        }
+
+        .brand-name span {
+            color: var(--accent-light);
+            font-size: 0.75rem;
+            display: block;
+            font-weight: 400;
+        }
+
+        .call-btn {
+            background: var(--accent-blue);
             color: white;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 20px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.85rem;
-            border: none;
-            cursor: pointer;
+            font-size: 0.8rem;
             transition: 0.3s;
         }
 
-        .header-btn:hover {
-            background: #c62828;
+        .call-btn:hover {
+            background: #2563eb;
         }
 
-        /* قسم الهيدر / الغلاف البسيط */
-        .hero-banner {
-            padding: 90px 4% 20px 4%;
+        /* قسم الترحيب */
+        .hero {
+            padding: 95px 5% 15px 5%;
             text-align: center;
         }
 
-        .hero-banner h1 {
-            font-size: 1.8rem;
+        .hero h1 {
+            font-size: 1.6rem;
             font-weight: 900;
-            color: var(--light);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
-        .hero-banner h1 span {
-            color: var(--primary-red);
+        .hero p {
+            color: var(--text-gray);
+            font-size: 0.85rem;
         }
 
-        .hero-banner p {
-            color: var(--gray);
-            font-size: 0.9rem;
+        /* أزرار الفئات (التصنيفات) */
+        .categories-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px 5%;
+            overflow-x: auto;
+            scrollbar-width: none; /* إخفاء شريط التمرير */
+        }
+        .categories-container::-webkit-scrollbar {
+            display: none;
         }
 
-        /* حاوية المنيو بنظام العمودين المماثل للصورة */
+        .cat-btn {
+            background: var(--card-bg);
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .cat-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* أقسام القائمة */
         .menu-section {
-            padding: 15px 4% 50px 4%;
+            display: none;
+            padding: 10px 5%;
             max-width: 800px;
             margin: 0 auto;
         }
 
+        .menu-section.active {
+            display: block;
+        }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين تماماً مثل التصميم */
+            grid-template-columns: repeat(2, 1fr); /* عمودين متناسقين للجوال */
             gap: 12px;
         }
 
-        @media (max-width: 480px) {
+        @media(max-width: 400px) {
             .menu-grid {
-                grid-gap: 8px;
+                grid-template-columns: 1fr; /* عمود واحد للشاشات الصغيرة جداً إن أردت، أو يبقى عمودين كما طلبت */
             }
         }
 
-        /* كارت الوجبة المطابق تماماً للصورة */
-        .food-card {
-            background-color: var(--card-bg);
+        /* كارت العنصر */
+        .item-card {
+            background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        /* الجزء العلوي (صورة المنتج على خلفية سوداء أو رمادية غامقة) */
-        .food-img-container {
+        .item-card:active {
+            transform: scale(0.97);
+        }
+
+        .item-img-box {
             width: 100%;
-            height: 125px;
-            background-color: #252525;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
+            height: 120px;
             position: relative;
         }
 
-        @media (min-width: 600px) {
-            .food-img-container {
-                height: 160px;
-            }
-        }
-
-        .food-img {
+        .item-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 8px;
         }
 
-        /* الجزء السفلي (خلفية حمراء مطابقة للتصميم) */
-        .food-content {
-            background-color: var(--primary-red);
-            padding: 12px 10px 35px 10px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            text-align: right;
-            position: relative;
-        }
-
-        .food-title {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: var(--light);
-            margin-bottom: 4px;
-            line-height: 1.2;
-        }
-
-        @media (min-width: 600px) {
-            .food-title {
-                font-size: 1.1rem;
-            }
-        }
-
-        .food-desc {
-            font-size: 0.72rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.3;
-            margin-bottom: 5px;
-        }
-
-        @media (min-width: 600px) {
-            .food-desc {
-                font-size: 0.85rem;
-            }
-        }
-
-        /* دائرة السعر البارزة في الأسفل */
-        .price-badge {
-            position: absolute;
-            bottom: -15px;
-            left: 12px;
-            background-color: var(--dark);
-            color: var(--light);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--light);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .price-badge:hover {
-            transform: scale(1.05);
-            background-color: #000;
-        }
-
-        .price-num {
-            font-size: 0.8rem;
-            font-weight: 900;
-            line-height: 1;
-            color: var(--light);
-        }
-
-        .price-curr {
-            font-size: 0.55rem;
-            color: var(--gray);
-            margin-top: 1px;
-        }
-
-        @media (min-width: 600px) {
-            .price-badge {
-                width: 55px;
-                height: 55px;
-                bottom: -18px;
-            }
-            .price-num { font-size: 0.95rem; }
-            .price-curr { font-size: 0.65rem; }
-        }
-
-        /* قسم QR Code ومعلومات المطعم */
-        .info-section {
-            background: #181818;
-            padding: 40px 5%;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .qr-card {
-            background: var(--card-bg);
-            max-width: 320px;
-            margin: 0 auto 30px auto;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(229,57,53,0.3);
-        }
-
-        #qrcode {
-            background: white;
+        .item-content {
             padding: 10px;
-            display: inline-block;
-            border-radius: 8px;
-            margin: 12px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
         }
 
-        #qrcode img, #qrcode canvas {
-            display: block;
-            margin: 0 auto;
+        .item-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: white;
         }
 
-        .map-box {
-            width: 100%;
-            max-width: 600px;
-            height: 250px;
-            margin: 0 auto;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid rgba(229,57,53,0.3);
+        .item-price {
+            color: var(--accent-light);
+            font-size: 0.85rem;
+            font-weight: 900;
         }
 
-        .map-box iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* نافذة الطلب المنبثقة (Modal) */
+        /* نافذة تفاصيل العنصر (Modal) */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
@@ -307,8 +235,8 @@
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: 0.3s ease;
-            padding: 15px;
+            transition: 0.3s;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -316,274 +244,316 @@
             visibility: visible;
         }
 
-        .modal-content {
+        .modal-box {
             background: var(--card-bg);
             width: 100%;
-            max-width: 400px;
-            padding: 22px;
-            border-radius: 15px;
-            border: 1px solid var(--primary-red);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 1.3rem;
-            cursor: pointer;
-        }
-
-        .modal-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: var(--primary-red);
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: #111;
+            max-width: 380px;
+            border-radius: 16px;
+            overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: white;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem;
-            outline: none;
+            position: relative;
+            animation: slideUp 0.3s ease;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: var(--primary-red);
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        .submit-order-btn {
-            width: 100%;
-            background: #25d366;
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.6);
             color: white;
-            padding: 11px;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             font-size: 1rem;
             cursor: pointer;
-            margin-top: 8px;
+            z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
         }
 
-        /* الفوتر */
-        footer {
-            background: #0b0b0b;
-            padding: 25px 5%;
-            text-align: center;
-            color: var(--gray);
+        .modal-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 16px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .modal-ingredients-title {
+            font-size: 0.8rem;
+            color: var(--accent-light);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .modal-desc {
             font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .modal-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 12px;
+        }
+
+        .modal-price {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--accent-light);
+        }
+
+        .order-wa-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* قسم QR Code والموقع */
+        .info-area {
+            text-align: center;
+            padding: 40px 5% 20px 5%;
+            margin-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .qr-box {
+            background: var(--card-bg);
+            max-width: 260px;
+            margin: 0 auto 20px auto;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        #qrcode {
+            background: white;
+            padding: 8px;
+            display: inline-block;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        #qrcode img, #qrcode canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط التنقل -->
+    <!-- الهيدر -->
     <header>
-        <a href="#" class="logo"><i class="fa-solid fa-burger"></i> باسكوتشي <span>كافيه</span></a>
-        <button class="header-btn" onclick="openModal('طلب عام من الموقع')">اطلب الآن</button>
+        <div class="brand">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=150&q=80" alt="Cali Café" class="brand-logo">
+            <div class="brand-name">
+                Cali Café
+                <span>Italian Japanese</span>
+            </div>
+        </div>
+        <a href="tel:+963113354086" class="call-btn"><i class="fa-solid fa-phone"></i> اتصال</a>
     </header>
 
-    <!-- رأس الصفحة -->
-    <div class="hero-banner">
-        <h1>قائمة <span>الوجبات السريعة</span></h1>
-        <p>مساكن برزة - حاميش | أكل حلال وطازج 100%</p>
+    <!-- الترحيب -->
+    <div class="hero">
+        <h1>قائمة المنيو التفاعلية</h1>
+        <p>اختر القسم واستعرض أطباقنا ومشروباتنا المميزة</p>
     </div>
 
-    <!-- قسم قائمة الطعام (مطابق تماماً لتصميم الكروت في الصورة) -->
-    <section class="menu-section">
+    <!-- أزرار تبديل الفئات (مشروبات ساخنة، باردة، أطباق رئيسية) -->
+    <div class="categories-container">
+        <button class="cat-btn active" onclick="switchTab('hot', this)">
+            <i class="fa-solid fa-mug-hot"></i> مشروبات ساخنة
+        </button>
+        <button class="cat-btn" onclick="switchTab('cold', this)">
+            <i class="fa-solid fa-glass-water"></i> مشروبات باردة
+        </button>
+        <button class="cat-btn" onclick="switchTab('meals', this)">
+            <i class="fa-solid fa-utensils"></i> الوجبات والأطباق
+        </button>
+    </div>
+
+    <!-- 1. قسم المشروبات الساخنة -->
+    <div id="hot" class="menu-section active">
         <div class="menu-grid">
-            
-            <!-- وجبة 1 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80" alt="مكسيكان ابن سوريا" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">مكسيكان ابن سوريا</h3>
-                    <p class="food-desc">ثلاث قطع من الدجاج المقرمش، خس، طماطم، جبنة شيدر، جبنة قشقوان، شيدر صوص.</p>
-                    <div class="price-badge" onclick="openModal('مكسيكان ابن سوريا')">
-                        <span class="price-num">650</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
+            <div class="item-card" onclick="openDetails('إسبريسو دبل', 'حبوب بن عربية فاخرة محمصة بعناية، مركزة وغنية بالنكهة.', '25,000 ل.س', 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">إسبريسو دبل</div>
+                    <div class="item-price">25,000 ل.س</div>
                 </div>
             </div>
 
-            <!-- وجبة 2 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=500&q=80" alt="تشيكن ابن سوريا" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">تشيكن ابن سوريا</h3>
-                    <p class="food-desc">قطعتان من الدجاج المقرمش، خس، طماطم، جبنة شيدر، جبنة قشقوان، شيدر صوص.</p>
-                    <div class="price-badge" onclick="openModal('تشيكن ابن سوريا')">
-                        <span class="price-num">550</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
+            <div class="item-card" onclick="openDetails('كابتشينو إيطالي', 'إسبريسو غني مع حليب طازج مبستر ورغوة مخملية ناعمة.', '35,000 ل.س', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">كابتشينو إيطالي</div>
+                    <div class="item-price">35,000 ل.س</div>
                 </div>
             </div>
 
-            <!-- وجبة 3 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80" alt="بروستد" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">بروستد</h3>
-                    <p class="food-desc">نصف فروجة، صدر، فخد، جناح، دبوس، بطاطا مقلية.</p>
-                    <div class="price-badge" onclick="openModal('بروستد')">
-                        <span class="price-num">850</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
+            <div class="item-card" onclick="openDetails('لاتيه بالشوكولا البيضاء', 'مزيج ساحر من الإسبريسو، الحليب الدافئ وشوكولا بيضاء فاخرة.', '40,000 ل.س', 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">لاتيه شوكولا بيضاء</div>
+                    <div class="item-price">40,000 ل.س</div>
                 </div>
             </div>
-
-            <!-- وجبة 4 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80" alt="اكستريم ابن سوريا" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">اكستريم ابن سوريا</h3>
-                    <p class="food-desc">قطعتان دجاج مقرمش، خس، طماطم، شيدر، قشقوان، بوب كورن، ناجتس، تندر، بطاطا.</p>
-                    <div class="price-badge" onclick="openModal('اكستريم ابن سوريا')">
-                        <span class="price-num">850</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- وجبة 5 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80" alt="سبايسي" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">سبايسي</h3>
-                    <p class="food-desc">قطع فيليه دجاج مقرمشة حارة، بطاطا مقلية.</p>
-                    <div class="price-badge" onclick="openModal('سبايسي')">
-                        <span class="price-num">650</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- وجبة 6 -->
-            <div class="food-card">
-                <div class="food-img-container">
-                    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=500&q=80" alt="كريسبي" class="food-img">
-                </div>
-                <div class="food-content">
-                    <h3 class="food-title">كريسبي</h3>
-                    <p class="food-desc">5 قطع فيليه دجاج مقرمشة، بطاطا مقلية.</p>
-                    <div class="price-badge" onclick="openModal('كريسبي')">
-                        <span class="price-num">650</span>
-                        <span class="price-curr">ل.س</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- قسم رمز الاستجابة السريعة QR والموقع -->
-    <section class="info-section">
-        <h2 style="font-size: 1.4rem; margin-bottom: 5px;">امسح رمز الـ <span style="color:var(--primary-red);">QR</span></h2>
-        <p style="color: var(--gray); font-size: 0.85rem; margin-bottom: 20px;">شارك الموقع مع أصدقائك داخل المطعم</p>
-        
-        <div class="qr-card">
-            <div id="qrcode"></div>
-            <p style="font-weight: 700; color: var(--primary-red); font-size: 0.85rem; margin-top: 5px;">باسكوتشي كافيه - برزة</p>
-        </div>
-
-        <div class="map-box">
-            <iframe src="https://maps.google.com/maps?q=Damascus+Barzeh+Housing&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-    </section>
-
-    <!-- نافذة إرسال الطلب المنبثقة -->
-    <div class="modal-overlay" id="orderModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h3>تأكيد الطلب</h3>
-            <form id="orderForm" onsubmit="sendToWhatsApp(event)">
-                <div class="form-group">
-                    <label>الوجبة المحددة</label>
-                    <input type="text" id="selectedMeal" readonly style="color: var(--primary-red); font-weight: bold;">
-                </div>
-                <div class="form-group">
-                    <label>الاسم الكريم</label>
-                    <input type="text" id="name" required placeholder="ادخل اسمك">
-                </div>
-                <div class="form-group">
-                    <label>رقم الهاتف</label>
-                    <input type="tel" id="phone" required placeholder="09xxxxxxxx">
-                </div>
-                <div class="form-group">
-                    <label>نوع الطلب</label>
-                    <select id="orderType">
-                        <option value="سفري">سفري (توصيل / استلام)</option>
-                        <option value="حجز طاولة بالمطعم">حجز طاولة بالمطعم</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>ملاحظات إضافية (اختياري)</label>
-                    <textarea id="notes" rows="2" placeholder="رقم الطاولة أو تفاصيل الحجم..."></textarea>
-                </div>
-                <button type="submit" class="submit-order-btn">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> إرسال عبر واتساب
-                </button>
-            </form>
         </div>
     </div>
 
-    <!-- الفوتر -->
+    <!-- 2. قسم المشروبات الباردة -->
+    <div id="cold" class="menu-section">
+        <div class="menu-grid">
+            <div class="item-card" onclick="openDetails('أيس سبانيش لاتيه', 'إسبريسو بارد، حليب مكثف محلى خاص، مكعبات ثلج ورشة قرفة.', '42,000 ل.س', 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">أيس سبانيش لاتيه</div>
+                    <div class="item-price">42,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('موهيتو كالي الخاص', 'نعناع طازج، ليمون، نكهة التوت الأزرق الفاخرة ومياه غازية منعشة.', '38,000 ل.س', 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">موهيتو كالي الخاص</div>
+                    <div class="item-price">38,000 ل.س</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. قسم الوجبات والأطباق الرئيسية -->
+    <div id="meals" class="menu-section">
+        <div class="menu-grid">
+            <div class="item-card" onclick="openDetails('بَيكد لازانيا (Baked Lasagna)', 'طبقات مكرونة لازانيا إيطالية أصلية، لحم مفروم بصوص البشاميل وجبنة موتشاريلا محمرة بالفرن.', '75,000 ل.س', 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">بَيكد لازانيا</div>
+                    <div class="item-price">75,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('سالمون بالسمسم (Sesame Salmon)', 'فيليه سالمون طازج مشوي بكراميل الصويا والسمسم، يוגدم مع هريس البطاطس الناعم.', '95,000 ل.س', 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">سالمون بالسمسم</div>
+                    <div class="item-price">95,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('أرانشيني الكمأة (Truffle Arancini)', 'كرات أرز إيطالية مقرمشة ومحشوة بجبنة الموتشاريلا وزيت الكمأة الفاخر، مع صوص الطماطم.', '60,000 ل.س', 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">أرانشيني الكمأة</div>
+                    <div class="item-price">60,000 ل.س</div>
+                </div>
+            </div>
+
+            <div class="item-card" onclick="openDetails('سلطة الجرجير (Arugula Salad)', 'جرجير طازج، بندورة كرزية، جوز محمص، جبنة پارميزان مبشورة مع صوص البلسمك الخاص.', '45,000 ل.س', 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80')">
+                <div class="item-img-box"><img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
+                <div class="item-content">
+                    <div class="item-title">سلطة الجرجير</div>
+                    <div class="item-price">45,000 ل.س</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الطلب والمكونات -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <img id="mImg" src="" class="modal-img">
+            <div class="modal-body">
+                <h3 id="mTitle" class="modal-title"></h3>
+                <div class="modal-ingredients-title">المكونات والتفاصيل:</div>
+                <p id="mDesc" class="modal-desc"></p>
+                <div class="modal-price-row">
+                    <span id="mPrice" class="modal-price"></span>
+                    <button class="order-wa-btn" onclick="orderOnWhatsApp()">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i> اطلب الآن
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم الـ QR Code والموقع -->
+    <div class="info-area">
+        <h3 style="font-size: 1rem; margin-bottom: 4px;">شارك منيو كالي كافيه</h3>
+        <p style="color: var(--text-gray); font-size: 0.75rem;">امسح الكود لفتح القائمة على هاتف صديقك</p>
+        <div class="qr-box">
+            <div id="qrcode"></div>
+            <p style="color: var(--accent-light); font-size: 0.75rem; font-weight: 700; margin-top: 6px;">Cali Café Menu</p>
+        </div>
+    </div>
+
     <footer>
-        <p>باسكوتشي كافيه © 2026 - جميع الحقوق محفوظة</p>
+        <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- السكربتات -->
+    <!-- الأكواد البرمجية للتحكم بالتنقل والـ Modal والواتساب -->
     <script>
-        // توليد رمز QR تلقائياً
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: window.location.href,
-            width: 140,
-            height: 140,
-            colorDark : "#121212",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
+        // تبديل التبويبات (مشروبات ساخنة، باردة، أطباق)
+        function switchTab(tabId, btnElement) {
+            // إخفاء الكل
+            document.querySelectorAll('.menu-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
 
-        // نافذة الطلب
-        const modal = document.getElementById('orderModal');
-        const selectedMealInput = document.getElementById('selectedMeal');
+            // إظهار المطلوب
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
 
-        function openModal(mealName) {
-            selectedMealInput.value = mealName;
+        // نافذة التفاصيل والمكونات
+        const modal = document.getElementById('itemModal');
+        const mTitle = document.getElementById('mTitle');
+        const mDesc = document.getElementById('mDesc');
+        const mPrice = document.getElementById('mPrice');
+        const mImg = document.getElementById('mImg');
+
+        let currentItemName = "";
+
+        function openDetails(name, desc, price, imgUrl) {
+            currentItemName = name;
+            mTitle.innerText = name;
+            mDesc.innerText = desc;
+            mPrice.innerText = price;
+            mImg.src = imgUrl;
             modal.classList.add('active');
         }
 
@@ -597,32 +567,27 @@
             }
         }
 
-        // إرسال البيانات للواتساب
-        function sendToWhatsApp(event) {
-            event.preventDefault();
+        // توليد QR Code للموقع تلقائياً
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: window.location.href,
+            width: 120,
+            height: 120,
+            colorDark : "#12141a",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
 
-            const meal = document.getElementById('selectedMeal').value;
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const orderType = document.getElementById('orderType').value;
-            const notes = document.getElementById('notes').value || 'لا يوجد';
-
-            const ownerPhone = "963992971290";
-
-            const text = `*طلب جديد عبر موقع باسكوتشي كافيه* 🍔%0a` +
+        // إرسال الطلب عبر الواتساب
+        function orderOnWhatsApp() {
+            const phone = "963113354086"; // رقم الحجز المأخوذ من حسابهم
+            const text = `*طلب جديد من منيو كالي كافيه* ☕🍽️%0a` +
                          `--------------------------------%0a` +
-                         `🍽️ *الوجبة:* ${meal}%0a` +
-                         `👤 *الاسم:* ${name}%0a` +
-                         `📞 *رقم الهاتف:* ${phone}%0a` +
-                         `📌 *نوع الطلب:* ${orderType}%0a` +
-                         `📝 *الملاحظات:* ${notes}%0a` +
+                         `✨ *الطلب:* ${currentItemName}%0a` +
+                         `💰 *السعر:* ${mPrice.innerText}%0a` +
                          `--------------------------------%0a` +
-                         `يرجى تأكيد الطلب للزبون!`;
+                         `أرجو تأكيد الطلب من فضلك!`;
 
-            const whatsappURL = `https://wa.me/${ownerPhone}?text=${text}`;
-            window.open(whatsappURL, '_blank');
-
-            closeModal();
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
         }
     </script>
 
