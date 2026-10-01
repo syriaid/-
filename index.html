@@ -371,7 +371,7 @@
             gap: 6px;
         }
 
-        /* نافذة كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) */
+        /* نافذة إدخال كلمة مرور المسؤول المخصصة (تتوسط الشاشة تماماً) */
         .admin-modal-box {
             background: var(--card-bg);
             width: 100%;
@@ -451,6 +451,63 @@
         .btn-cancel:hover {
             background: rgba(255,255,255,0.15);
             color: white;
+        }
+
+        /* نافذة التنبيه الأنيقة المخصصة (بدل الـ alert التقليدية) */
+        .custom-alert-box {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 340px;
+            border-radius: 20px;
+            padding: 25px 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        .custom-alert-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 15px auto;
+        }
+
+        .custom-alert-box h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .custom-alert-box p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .custom-alert-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .custom-alert-btn:hover {
+            background: #2563eb;
         }
 
         /* قسم التقييمات والتعليقات ولوحة التحكم */
@@ -689,7 +746,7 @@
         <div class="brand">
             <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=150&q=80" alt="Cali Café" class="brand-logo">
             <div class="brand-name">
-                مسؤول
+                Cali Café
                 <span>CALI CAFE</span>
             </div>
         </div>
@@ -880,6 +937,18 @@
         </div>
     </div>
 
+    <!-- نافذة التنبيه الأنيقة المخصصة لنجاح تسجيل الدخول (بدل الـ alert التقليدية) -->
+    <div class="modal-overlay" id="customAlertModal">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3>تم تفعيل وضع المسؤول بنجاح!</h3>
+            <p>يمكنك الآن حذف أي تعليق بسهولة.</p>
+            <button class="custom-alert-btn" onclick="closeCustomAlert()">حسناً</button>
+        </div>
+    </div>
+
     <!-- قسم التقييمات والتعليقات ولوحة تحكم المسؤول -->
     <section class="reviews-section">
         <div class="reviews-box">
@@ -981,6 +1050,7 @@
         // نافذة كلمة المرور المخصصة للمسؤول
         const adminModal = document.getElementById('adminModal');
         const adminPasswordInput = document.getElementById('adminPasswordInput');
+        const customAlertModal = document.getElementById('customAlertModal');
         let isAdmin = false;
         const ADMIN_PASSWORD = "1234"; // كلمة المرور
 
@@ -1001,6 +1071,14 @@
             adminModal.classList.remove('active');
         }
 
+        function showCustomAlert() {
+            customAlertModal.classList.add('active');
+        }
+
+        function closeCustomAlert() {
+            customAlertModal.classList.remove('active');
+        }
+
         function submitAdminPassword() {
             let pass = adminPasswordInput.value;
             if (pass === ADMIN_PASSWORD) {
@@ -1008,7 +1086,7 @@
                 document.body.classList.add('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
                 closeAdminModal();
-                alert('تم تفعيل وضع المسؤول بنجاح! يمكنك الآن حذف أي تعليق.');
+                showCustomAlert(); // إظهار التنبيه الأنيق المتوسط للشاشة
             } else {
                 alert('كلمة المرور غير صحيحة!');
                 adminPasswordInput.value = '';
@@ -1029,6 +1107,9 @@
             }
             if (event.target == adminModal) {
                 closeAdminModal();
+            }
+            if (event.target == customAlertModal) {
+                closeCustomAlert();
             }
         }
 
