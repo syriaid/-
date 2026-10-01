@@ -396,6 +396,11 @@
             margin-bottom: 15px;
         }
 
+        .admin-modal-box p span {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
         .admin-modal-box input {
             width: 100%;
             background: var(--bg-dark);
@@ -866,7 +871,7 @@
     <div class="modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <h3>تسجيل دخول مسؤول</h3>
-            <p>الرجاء إدخال كلمة مرور المسؤول للمتابعة في Cali Café</p>
+            <p>الرجاء إدخال كلمة مرور المسؤول للمتابعة في <span>Cali Café</span></p>
             <input type="password" id="adminPasswordInput" placeholder="كلمة المرور..." autofocus>
             <div class="admin-modal-btns">
                 <button class="btn-cancel" onclick="closeAdminModal()">إلغاء</button>
