@@ -10,6 +10,37 @@
     <!-- مكتبة QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
+    <!-- ربط مكتبات Firebase (SDK الإصدار 10) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // إعدادات اتصال Firebase الخاصة بك (مربوطة بقاعدة بياناتك السحابية)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForDemo-CaliCafeSync",
+            authDomain: "calicafe-sync.firebaseapp.com",
+            databaseURL: "https://calicafe-sync-default-rtdb.firebaseio.com/",
+            projectId: "calicafe-sync",
+            storageBucket: "calicafe-sync.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef"
+        };
+
+        // تهيئة فايربيس
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // جعل الدوال متاحة عالمياً في المتصفح
+        window.fbDB = db;
+        window.fbRef = ref;
+        window.fbPush = push;
+        window.fbRemove = remove;
+        window.fbOnValue = onValue;
+        
+        // إطلاق حدث إخبار بأن Firebase أصبح جاهزاً
+        window.dispatchEvent(new Event('firebaseReady'));
+    </script>
+    
     <style>
         :root {
             --bg-dark: #12141a;
@@ -1003,22 +1034,7 @@
 
             <!-- قائمة التعليقات -->
             <div class="reviews-list" id="reviewsList">
-                <div class="review-item">
-                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
-                    <div class="review-header">
-                        <span class="review-user">محمد الأحمد</span>
-                        <span class="review-stars">★★★★★</span>
-                    </div>
-                    <div class="review-text">الأكل طازج وطعم السوشي خرافي، المكان جداً فخم وراقي!</div>
-                </div>
-                <div class="review-item">
-                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
-                    <div class="review-header">
-                        <span class="review-user">سارة خالد</span>
-                        <span class="review-stars">★★★★★</span>
-                    </div>
-                    <div class="review-text">أفضل كافيه إيطالي ياباني، اللاتيه واللازانيا بتاخد العقل.</div>
-                </div>
+                <div style="text-align: center; color: var(--text-gray); padding: 15px; font-size: 0.85rem;">جاري تحميل التعليقات...</div>
             </div>
         </div>
     </section>
@@ -1042,7 +1058,7 @@
         <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- الأكواد البرمجية للتحكم بالتنقل، المودال، التقييمات، ولوحة تحكم المسؤول -->
+    <!-- الأكواد البرمجية للتحكم والتزامن السحابي -->
     <script>
         // تبديل التبويبات
         function switchTab(tabId, btnElement) {
@@ -1075,7 +1091,7 @@
             modal.classList.remove('active');
         }
 
-        // نافذة كلمة المرور المخصصة للمسؤول والتنبيهات
+        // نافذة كلمة المرور والتنبيهات المخصصة للمسؤول
         const adminModal = document.getElementById('adminModal');
         const adminPasswordInput = document.getElementById('adminPasswordInput');
         const customAlertModal = document.getElementById('customAlertModal');
@@ -1087,7 +1103,7 @@
 
         let isAdmin = false;
         const ADMIN_PASSWORD = "1234"; // كلمة المرور
-        let pendingReviewItem = null; // تخزين التعليق المراد حذفه مؤقتاً
+        let pendingReviewId = null; // تخزين معرف التعليق المراد حذفه سحابياً
 
         function toggleAdminMode() {
             if (!isAdmin) {
@@ -1098,7 +1114,6 @@
                 isAdmin = false;
                 document.body.classList.remove('admin-mode');
                 document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
-                
                 showInfoAlert("تم إيقاف وضع المسؤول", "تم خروجك من لوحة التحكم بنجاح.");
             }
         }
@@ -1126,10 +1141,10 @@
         }
 
         // نافذة تأكيد الحذف بتصميم أنيق
-        function promptDeleteReview(buttonElement) {
-            pendingReviewItem = buttonElement.closest('.review-item');
+        function promptDeleteReview(reviewId) {
+            pendingReviewId = reviewId;
             alertTitle.innerText = "تأكيد الحذف";
-            alertDesc.innerText = "هل أنت متأكد من حذف هذا التعليق؟";
+            alertDesc.innerText = "هل أنت متأكد من حذف هذا التعليق نهائياً من الموقع؟";
             alertIconBox.className = "custom-alert-icon danger";
             alertIconElem.className = "fa-solid fa-trash-can";
             
@@ -1143,13 +1158,13 @@
         }
 
         function confirmDeleteReview() {
-            if (pendingReviewItem) {
-                pendingReviewItem.style.transition = '0.3s';
-                pendingReviewItem.style.opacity = '0';
-                setTimeout(() => {
-                    pendingReviewItem.remove();
-                    pendingReviewItem = null;
-                }, 300);
+            if (pendingReviewId && window.fbDB) {
+                const commentRef = window.fbRef(window.fbDB, 'reviews/' + pendingReviewId);
+                window.fbRemove(commentRef).then(() => {
+                    pendingReviewId = null;
+                }).catch((error) => {
+                    console.error("خطأ أثناء الحذف: ", error);
+                });
             }
             closeCustomAlert();
         }
@@ -1207,11 +1222,10 @@
             });
         });
 
-        // إضافة تقييم جديد
+        // إضافة تقييم جديد وإرساله لقاعدة البيانات السحابية
         function addReview() {
             const nameInput = document.getElementById('reviewerName');
             const textInput = document.getElementById('reviewText');
-            const reviewsList = document.getElementById('reviewsList');
 
             const name = nameInput.value.trim();
             const text = textInput.value.trim();
@@ -1221,24 +1235,62 @@
                 return;
             }
 
-            let starsStr = '★'.repeat(selectedStars) + '☆'.repeat(5 - selectedStars);
+            if (!window.fbDB) {
+                alert('جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة.');
+                return;
+            }
 
-            const newReviewHTML = `
-                <div class="review-item" style="animation: fadeIn 0.4s ease;">
-                    <button class="delete-review-btn" onclick="promptDeleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
-                    <div class="review-header">
-                        <span class="review-user">${escapeHTML(name)}</span>
-                        <span class="review-stars">${starsStr}</span>
-                    </div>
-                    <div class="review-text">${escapeHTML(text)}</div>
-                </div>
-            `;
-
-            reviewsList.insertAdjacentHTML('afterbegin', newReviewHTML);
-
-            nameInput.value = '';
-            textInput.value = '';
+            const reviewsListRef = window.fbRef(window.fbDB, 'reviews');
+            window.fbPush(reviewsListRef, {
+                name: name,
+                text: text,
+                stars: selectedStars,
+                timestamp: Date.now()
+            }).then(() => {
+                nameInput.value = '';
+                textInput.value = '';
+            }).catch((error) => {
+                console.error("خطأ أثناء الإرسال: ", error);
+                alert('حدث خطأ أثناء إرسال التعليق.');
+            });
         }
+
+        // الاستماع للتحديثات الفورية من قاعدة البيانات السحابية
+        window.addEventListener('firebaseReady', () => {
+            const reviewsRef = window.fbRef(window.fbDB, 'reviews');
+            window.fbOnValue(reviewsRef, (snapshot) => {
+                const reviewsList = document.getElementById('reviewsList');
+                reviewsList.innerHTML = '';
+                
+                const data = snapshot.val();
+                if (!data) {
+                    reviewsList.innerHTML = `<div style="text-align: center; color: var(--text-gray); padding: 15px; font-size: 0.85rem;">لا توجد تعليقات حالياً. كن أول من يتقيّم!</div>`;
+                    return;
+                }
+
+                // تحويل الكائن إلى مصفوفة وترتيبها من الأحدث للأقدم
+                const reviewsArray = Object.keys(data).map(key => ({
+                    id: key,
+                    ...data[key]
+                })).sort((a, b) => b.timestamp - a.timestamp);
+
+                reviewsArray.forEach(review => {
+                    let starsStr = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'review-item';
+                    reviewItem.innerHTML = `
+                        <button class="delete-review-btn" onclick="promptDeleteReview('${review.id}')" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
+                        <div class="review-header">
+                            <span class="review-user">${escapeHTML(review.name)}</span>
+                            <span class="review-stars">${starsStr}</span>
+                        </div>
+                        <div class="review-text">${escapeHTML(review.text)}</div>
+                    `;
+                    reviewsList.appendChild(reviewItem);
+                });
+            });
+        });
 
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
