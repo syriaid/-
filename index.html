@@ -10,32 +10,35 @@
     <!-- مكتبة QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
-    <!-- ربط مكتبات Firebase (SDK الإصدار 10) -->
+    <!-- ربط مكتبات Firebase (SDK الإصدار 10) مع Cloud Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getDatabase, ref, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-        // إعدادات اتصال Firebase الخاصة بك (مربوطة بقاعدة بياناتك السحابية)
+        // إعدادات اتصال Firebase الخاصة بمشروعك الحقيقي
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForDemo-CaliCafeSync",
-            authDomain: "calicafe-sync.firebaseapp.com",
-            databaseURL: "https://calicafe-sync-default-rtdb.firebaseio.com/",
-            projectId: "calicafe-sync",
-            storageBucket: "calicafe-sync.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef"
+            apiKey: "AIzaSyBZBioestVlc7HUhpJJ0Zir_Zbem4ZgRXc",
+            authDomain: "cali-cafe-60e65.firebaseapp.com",
+            projectId: "cali-cafe-60e65",
+            storageBucket: "cali-cafe-60e65.firebasestorage.app",
+            messagingSenderId: "562409038746",
+            appId: "1:562409038746:web:8a8b7a202fecaf509cd023",
+            measurementId: "G-GGE7Q0YTCB"
         };
 
-        // تهيئة فايربيس
+        // تهيئة فايربيس وقاعدة البيانات Firestore
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const db = getFirestore(app);
 
-        // جعل الدوال متاحة عالمياً في المتصفح
+        // جعل الدوال متاحة عالمياً في المتصفح للاستخدام داخل الموقع
         window.fbDB = db;
-        window.fbRef = ref;
-        window.fbPush = push;
-        window.fbRemove = remove;
-        window.fbOnValue = onValue;
+        window.fbCollection = collection;
+        window.fbAddDoc = addDoc;
+        window.fbDeleteDoc = deleteDoc;
+        window.fbDoc = doc;
+        window.fbOnSnapshot = onSnapshot;
+        window.fbQuery = query;
+        window.fbOrderBy = orderBy;
         
         // إطلاق حدث إخبار بأن Firebase أصبح جاهزاً
         window.dispatchEvent(new Event('firebaseReady'));
@@ -1058,7 +1061,7 @@
         <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- الأكواد البرمجية للتحكم والتزامن السحابي -->
+    <!-- الأكواد البرمجية للتحكم والتزامن السحابي عبر Firestore -->
     <script>
         // تبديل التبويبات
         function switchTab(tabId, btnElement) {
@@ -1159,8 +1162,8 @@
 
         function confirmDeleteReview() {
             if (pendingReviewId && window.fbDB) {
-                const commentRef = window.fbRef(window.fbDB, 'reviews/' + pendingReviewId);
-                window.fbRemove(commentRef).then(() => {
+                const commentDocRef = window.fbDoc(window.fbDB, 'reviews', pendingReviewId);
+                window.fbDeleteDoc(commentDocRef).then(() => {
                     pendingReviewId = null;
                 }).catch((error) => {
                     console.error("خطأ أثناء الحذف: ", error);
@@ -1222,7 +1225,7 @@
             });
         });
 
-        // إضافة تقييم جديد وإرساله لقاعدة البيانات السحابية
+        // إضافة تقييم جديد وإرساله لقاعدة بيانات Firestore السحابية
         function addReview() {
             const nameInput = document.getElementById('reviewerName');
             const textInput = document.getElementById('reviewText');
@@ -1240,8 +1243,8 @@
                 return;
             }
 
-            const reviewsListRef = window.fbRef(window.fbDB, 'reviews');
-            window.fbPush(reviewsListRef, {
+            const reviewsCol = window.fbCollection(window.fbDB, 'reviews');
+            window.fbAddDoc(reviewsCol, {
                 name: name,
                 text: text,
                 stars: selectedStars,
@@ -1255,32 +1258,29 @@
             });
         }
 
-        // الاستماع للتحديثات الفورية من قاعدة البيانات السحابية
+        // الاستماع للتحديثات الفورية من Firestore
         window.addEventListener('firebaseReady', () => {
-            const reviewsRef = window.fbRef(window.fbDB, 'reviews');
-            window.fbOnValue(reviewsRef, (snapshot) => {
+            const reviewsCol = window.fbCollection(window.fbDB, 'reviews');
+            const q = window.fbQuery(reviewsCol, window.fbOrderBy('timestamp', 'desc'));
+
+            window.fbOnSnapshot(q, (snapshot) => {
                 const reviewsList = document.getElementById('reviewsList');
                 reviewsList.innerHTML = '';
                 
-                const data = snapshot.val();
-                if (!data) {
+                if (snapshot.empty) {
                     reviewsList.innerHTML = `<div style="text-align: center; color: var(--text-gray); padding: 15px; font-size: 0.85rem;">لا توجد تعليقات حالياً. كن أول من يتقيّم!</div>`;
                     return;
                 }
 
-                // تحويل الكائن إلى مصفوفة وترتيبها من الأحدث للأقدم
-                const reviewsArray = Object.keys(data).map(key => ({
-                    id: key,
-                    ...data[key]
-                })).sort((a, b) => b.timestamp - a.timestamp);
-
-                reviewsArray.forEach(review => {
+                snapshot.forEach((docSnap) => {
+                    const review = docSnap.data();
+                    const reviewId = docSnap.id;
                     let starsStr = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
 
                     const reviewItem = document.createElement('div');
                     reviewItem.className = 'review-item';
                     reviewItem.innerHTML = `
-                        <button class="delete-review-btn" onclick="promptDeleteReview('${review.id}')" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
+                        <button class="delete-review-btn" onclick="promptDeleteReview('${reviewId}')" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                         <div class="review-header">
                             <span class="review-user">${escapeHTML(review.name)}</span>
                             <span class="review-stars">${starsStr}</span>
