@@ -926,7 +926,7 @@
                 </div>
             </div>
 
-            <div class="item-card" onclick="openDetails('كابتشينو إيطالي', 'إسبريسو غني مع حليب طازج مبستر ورغوة مخملية ناعمة.', '35,000 ل.س', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80')">
+            <div class="item-card" onclick="openDetails('كابتشينو إيطالي', 'إسبريسو غني مع حليب طازج مبستر والرغوة المخملية الناعمة.', '35,000 ل.س', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80')">
                 <div class="item-img-box"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80" class="item-img"></div>
                 <div class="item-content">
                     <div class="item-title">كابتشينو إيطالي</div>
@@ -1252,7 +1252,8 @@
             }).then(() => {
                 nameInput.value = '';
                 textInput.value = '';
-                showSuccessAlert("تم بنجاح", "تم إضافة تعليقك ونشره في القائمة فوراً!");
+                // رسالة شكر مرتبطة باسم الزبون
+                showSuccessAlert("شكراً لتقييمك، " + name + "!", "تم نشر تعليقك بنجاح في القائمة.");
             }).catch((error) => {
                 console.error("خطأ أثناء الإرسال: ", error);
                 showInfoAlert("خطأ", "حدث خطأ أثناء إرسال التعليق.");
