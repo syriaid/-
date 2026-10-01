@@ -363,7 +363,7 @@
             gap: 6px;
         }
 
-        /* قسم التقييمات والآراء */
+        /* قسم التقييمات والتعليقات ولوحة التحكم */
         .reviews-section {
             max-width: 800px;
             margin: 30px auto 10px auto;
@@ -377,12 +377,35 @@
             border: 1px solid rgba(255,255,255,0.08);
         }
 
+        .reviews-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         .reviews-box h3 {
             font-size: 1.1rem;
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .admin-login-trigger {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .admin-login-trigger:hover {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
         }
 
         .review-form {
@@ -451,6 +474,7 @@
             padding: 10px 12px;
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
         }
 
         .review-header {
@@ -473,6 +497,40 @@
         .review-text {
             color: var(--text-gray);
             font-size: 0.8rem;
+        }
+
+        /* زر الحذف الخاص بالمسؤول */
+        .delete-review-btn {
+            display: none;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .delete-review-btn:hover {
+            background: #dc2626;
+        }
+
+        /* وضع المسؤول مفعّل */
+        body.admin-mode .delete-review-btn {
+            display: flex;
+        }
+
+        body.admin-mode .admin-login-trigger {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
         }
 
         /* قسم QR Code والموقع */
@@ -714,10 +772,15 @@
         </div>
     </div>
 
-    <!-- قسم التقييمات والتعليقات -->
+    <!-- قسم التقييمات والتعليقات ولوحة تحكم المسؤول -->
     <section class="reviews-section">
         <div class="reviews-box">
-            <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> تقييمات الزبائن</h3>
+            <div class="reviews-header-bar">
+                <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> تقييمات الزبائن</h3>
+                <button class="admin-login-trigger" id="adminToggleBtn" onclick="toggleAdminMode()">
+                    <i class="fa-solid fa-lock"></i> دخول المسؤول
+                </button>
+            </div>
             
             <!-- نموذج إضافة تعليق -->
             <div class="review-form">
@@ -736,6 +799,7 @@
             <!-- قائمة التعليقات -->
             <div class="reviews-list" id="reviewsList">
                 <div class="review-item">
+                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">محمد الأحمد</span>
                         <span class="review-stars">★★★★★</span>
@@ -743,6 +807,7 @@
                     <div class="review-text">الأكل طازج وطعم السوشي خرافي، المكان جداً فخم وراقي!</div>
                 </div>
                 <div class="review-item">
+                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">سارة خالد</span>
                         <span class="review-stars">★★★★★</span>
@@ -772,7 +837,7 @@
         <p>Cali Café (Italian Japanese) © 2026 - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- الأكواد البرمجية للتحكم بالتنقل، المودال، التقييمات، والواتساب -->
+    <!-- الأكواد البرمجية للتحكم بالتنقل، المودال، التقييمات، ولوحة تحكم المسؤول -->
     <script>
         // تبديل التبويبات
         function switchTab(tabId, btnElement) {
@@ -827,6 +892,41 @@
             });
         });
 
+        // نظام التحكم بالمسؤول (Admin Mode)
+        let isAdmin = false;
+        const ADMIN_PASSWORD = "1234"; // كلمة المرور الافتراضية (يمكنك تغييرها هنا)
+
+        function toggleAdminMode() {
+            if (!isAdmin) {
+                let pass = prompt("الرجاء إدخال كلمة مرور المسؤول:");
+                if (pass === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    document.body.classList.add('admin-mode');
+                    document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock-open"></i> وضع المسؤول مفعل';
+                    alert('تم تفعيل وضع المسؤول بنجاح! يمكنك الآن حذف أي تعليق.');
+                } else if (pass !== null) {
+                    alert('كلمة المرور غير صحيحة!');
+                }
+            } else {
+                isAdmin = false;
+                document.body.classList.remove('admin-mode');
+                document.getElementById('adminToggleBtn').innerHTML = '<i class="fa-solid fa-lock"></i> دخول المسؤول';
+                alert('تم إيقاف وضع المسؤول.');
+            }
+        }
+
+        // حذف تعليق
+        function deleteReview(buttonElement) {
+            if (confirm('هل أنت متأكد من حذف هذا التعليق؟')) {
+                const reviewItem = buttonElement.closest('.review-item');
+                reviewItem.style.transition = '0.3s';
+                reviewItem.style.opacity = '0';
+                setTimeout(() => {
+                    reviewItem.remove();
+                }, 300);
+            }
+        }
+
         // إضافة تقييم جديد
         function addReview() {
             const nameInput = document.getElementById('reviewerName');
@@ -845,6 +945,7 @@
 
             const newReviewHTML = `
                 <div class="review-item" style="animation: fadeIn 0.4s ease;">
+                    <button class="delete-review-btn" onclick="deleteReview(this)" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
                     <div class="review-header">
                         <span class="review-user">${escapeHTML(name)}</span>
                         <span class="review-stars">${starsStr}</span>
