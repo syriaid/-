@@ -35,9 +35,10 @@
             line-height: 1.6;
             direction: rtl;
             text-align: right;
+            overflow-x: hidden;
         }
 
-        /* شريط التنقل */
+        /* شريط التنقل المتجاوب */
         header {
             position: fixed;
             top: 0;
@@ -48,19 +49,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
+            padding: 15px 5%;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .logo span {
@@ -70,13 +71,14 @@
         nav ul {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 20px;
         }
 
         nav ul li a {
             color: var(--light);
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.95rem;
             transition: 0.3s;
         }
 
@@ -87,10 +89,11 @@
         .header-btn {
             background: var(--primary);
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 700;
+            font-size: 0.9rem;
             transition: 0.3s;
             border: none;
             cursor: pointer;
@@ -103,21 +106,22 @@
 
         /* القسم الرئيسي (Hero) */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://cdn.pixabay.com/photo/2016/11/18/14/05/brick-wall-1834784_1280.jpg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 0 20px;
+            padding: 120px 20px 60px 20px;
             position: relative;
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 2.3rem;
             font-weight: 900;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--light);
+            line-height: 1.3;
         }
 
         .hero-content h1 span {
@@ -125,39 +129,43 @@
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--gray);
             max-width: 700px;
-            margin: 0 auto 30px auto;
+            margin: 0 auto 25px auto;
+            padding: 0 10px;
         }
 
         .rating-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: rgba(255, 159, 28, 0.2);
             border: 1px solid var(--accent);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: var(--accent);
             font-weight: 700;
+            font-size: 0.85rem;
         }
 
         .hero-btns {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 10px 24px;
             border-radius: 30px;
             font-weight: 700;
             text-decoration: none;
             transition: 0.3s;
             cursor: pointer;
             border: none;
+            font-size: 0.95rem;
         }
 
         .btn-primary {
@@ -183,49 +191,48 @@
         /* المميزات السريعة */
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 50px 8%;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 40px 5%;
             background: var(--dark-card);
             text-align: center;
         }
 
         .feature-box {
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            transition: 0.3s;
         }
 
         .feature-box i {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--secondary);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .feature-box h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
         }
 
         .feature-box p {
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         /* أقسام الموقع العامة */
         section {
-            padding: 80px 8%;
+            padding: 60px 5%;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 35px;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .section-title h2 span {
@@ -234,14 +241,14 @@
 
         .section-title p {
             color: var(--gray);
+            font-size: 0.95rem;
         }
 
         /* قائمة الطعام */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            direction: rtl;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .menu-item {
@@ -254,30 +261,30 @@
         }
 
         .menu-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
 
         .menu-img {
-            height: 220px;
+            height: 180px;
             width: 100%;
             object-fit: cover;
         }
 
         .menu-details {
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .menu-header h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .price {
             color: var(--primary);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* قسم QR Code */
@@ -290,9 +297,9 @@
 
         .qr-card {
             background: var(--dark-card);
-            max-width: 400px;
+            max-width: 350px;
             margin: 0 auto;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,107,53,0.3);
@@ -300,32 +307,45 @@
 
         #qrcode {
             background: white;
-            padding: 15px;
+            padding: 12px;
             display: inline-block;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         #qrcode canvas, #qrcode img {
             display: block;
             margin: 0 auto;
+            max-width: 100%;
+            height: auto;
         }
 
         /* قسم معلومات المطعم */
         .info-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            grid-template-columns: 1fr;
+            gap: 30px;
             background: var(--dark-card);
             border-radius: 20px;
-            padding: 40px;
-            align-items: center;
+            padding: 25px;
+        }
+
+        @media (min-width: 900px) {
+            .info-container {
+                grid-template-columns: 1fr 1fr;
+                padding: 40px;
+            }
         }
 
         .info-text h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
             color: var(--primary);
+        }
+
+        .info-text p {
+            font-size: 0.95rem;
+            color: var(--gray);
         }
 
         .info-list {
@@ -336,25 +356,31 @@
         .info-list li {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
         }
 
         .info-list li i {
             color: var(--secondary);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
 
-        /* إطار الخريطة التفاعلية بالرابط المخصص */
+        /* إطار الخريطة التفاعلية */
         .map-wrapper {
             width: 100%;
-            height: 350px;
+            height: 280px;
             border-radius: 15px;
             overflow: hidden;
             position: relative;
             border: 2px solid rgba(255, 107, 53, 0.3);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (min-width: 900px) {
+            .map-wrapper {
+                height: 350px;
+            }
         }
 
         .map-wrapper iframe {
@@ -389,6 +415,7 @@
             opacity: 0;
             visibility: hidden;
             transition: 0.3s ease;
+            padding: 15px;
         }
 
         .modal-overlay.active {
@@ -398,9 +425,9 @@
 
         .modal-content {
             background: var(--dark-card);
-            width: 90%;
-            max-width: 450px;
-            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            padding: 25px 20px;
             border-radius: 20px;
             border: 1px solid rgba(255, 107, 53, 0.4);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
@@ -415,12 +442,12 @@
 
         .close-modal {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             background: none;
             border: none;
             color: var(--gray);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -430,32 +457,33 @@
         }
 
         .modal-content h3 {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             color: var(--primary);
             text-align: center;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             background: #121212;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px;
             color: white;
             font-family: 'Cairo', sans-serif;
             outline: none;
+            font-size: 0.95rem;
             transition: 0.3s;
         }
 
@@ -471,7 +499,7 @@
             border: none;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
             margin-top: 10px;
@@ -488,25 +516,21 @@
         /* الفوتر */
         footer {
             background: #0b0b0b;
-            padding: 40px 8%;
+            padding: 30px 5%;
             text-align: center;
             border-top: 1px solid rgba(255,255,255,0.05);
             color: var(--gray);
+            font-size: 0.9rem;
         }
 
         footer p {
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
+        /* إخفاء القوائم النصية الطويلة في الهواتف الصغيرة جداً لترتيب العرض */
         @media (max-width: 768px) {
             nav {
                 display: none;
-            }
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            .info-container {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -522,7 +546,7 @@
                 <li><a href="#menu">قائمة الطعام</a></li>
                 <li><a href="#qr-code">رمز QR</a></li>
                 <li><a href="#about">عن المطعم</a></li>
-                <li><a href="#contact">الموقع وأوقات العمل</a></li>
+                <li><a href="#contact">الموقع</a></li>
             </ul>
         </nav>
         <button class="header-btn" onclick="openModal()">اطلب الآن</button>
@@ -535,7 +559,7 @@
                 <i class="fa-solid fa-star"></i> 4.5 نجوم (ممتاز) | أجواء عصرية
             </div>
             <h1>طعم الوجبات السريعة <span>بأجواء عصرية</span></h1>
-            <p>وجهتكم المثالية في مساكن برزة (حاميش). نقدم ألذ الوجبات السريعة الحلال 100%، مناسبة للطلاب والعائلات والسياح!</p>
+            <p>وجهتكم المثالية في مساكن برزة (حاميش). نقدم ألذ الوجبات السريعة الحلال 100%، مناسبة للطلاب والعائلات!</p>
             <div class="hero-btns">
                 <a href="#menu" class="btn btn-primary">استعرض القائمة</a>
                 <button class="btn btn-outline" onclick="openModal()">احجز طاولة / سفري</button>
@@ -548,22 +572,22 @@
         <div class="feature-box">
             <i class="fa-solid fa-clock"></i>
             <h3>دوام يومي طويل</h3>
-            <p>نفتح أبوابنا يومياً من الساعة 10:00 صباحاً وحتى الساعة 2:00 فجراً.</p>
+            <p>من 10:00 صباحاً حتى 2:00 فجراً.</p>
         </div>
         <div class="feature-box">
             <i class="fa-solid fa-utensils"></i>
-            <h3>سفري وطاولات مريحة</h3>
-            <p>خدمة سريعة للسفري وجلسات داخلية مريحة ومناسبة للأطفال والعائلات.</p>
+            <h3>سفري وطاولات</h3>
+            <p>جلسات مريحة وخدمة سفري سريعة.</p>
         </div>
         <div class="feature-box">
             <i class="fa-solid fa-graduation-cap"></i>
-            <h3>ملتقى الطلاب والسياح</h3>
-            <p>أجواء حيوية وعصرية تناسب طلاب الجامعات والسياح والشباب.</p>
+            <h3>ملتقى الطلاب</h3>
+            <p>أجواء حيوية تناسب الشباب والسياح.</p>
         </div>
         <div class="feature-box">
             <i class="fa-solid fa-shield-halved"></i>
             <h3>أكل حلال 100%</h3>
-            <p>مكونات طازجة ومضمونة لتحضير أشهى الوجبات السريعة.</p>
+            <p>مكونات طازجة ومضمونة يومياً.</p>
         </div>
     </div>
 
@@ -571,7 +595,7 @@
     <section id="menu">
         <div class="section-title">
             <h2>قائمة <span>الطعام</span></h2>
-            <p>تشكيلة واسعة من أطيب الوجبات السريعة والمشروبات (حلال 100%)</p>
+            <p>تشكيلة واسعة من أطيب الوجبات السريعة والمشروبات</p>
         </div>
 
         <div class="menu-grid">
@@ -596,7 +620,7 @@
             </div>
 
             <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80" alt="وجبة أطفال ناجتس وبطاطا" class="menu-img">
+                <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80" alt="وجبة أطفال" class="menu-img">
                 <div class="menu-details">
                     <div class="menu-header">
                         <h3>وجبة الأطفال السعيدة</h3>
@@ -630,7 +654,7 @@
                 <div class="menu-details">
                     <div class="menu-header">
                         <h3>المشروبات الساخنة</h3>
-                        <p style="color: var(--gray); font-size: 0.85rem; margin-top: 4px;">إسبريسو، كابتشينو، موكا، نسكافيه</p>
+                        <p style="color: var(--gray); font-size: 0.8rem; margin-top: 2px;">إسبريسو، كابتشينو، نسكافيه</p>
                     </div>
                     <span class="price">قهوة / ساخن</span>
                 </div>
@@ -645,9 +669,9 @@
             <p>اعرض القائمة فوراً على هاتفك الذكي داخل المطعم</p>
         </div>
         <div class="qr-card">
-            <p style="color: var(--gray); font-size: 0.95rem; margin-bottom: 5px;">وجه كاميرا الهاتف نحو الرمز:</p>
+            <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 5px;">وجه كاميرا الهاتف نحو الرمز:</p>
             <div id="qrcode"></div>
-            <p style="font-weight: 700; color: var(--primary);">باسكوتشي كافيه - مساكن برزة / حاميش</p>
+            <p style="font-weight: 700; color: var(--primary); font-size: 0.95rem;">باسكوتشي كافيه - مساكن برزة</p>
         </div>
     </section>
 
@@ -666,12 +690,12 @@
             
             <div class="info-text">
                 <h3>وجهتك المفضلة في دمشق</h3>
-                <p>يتميز باسكوتشي كافيه بديكوراته العصرية والمريحة، ليكون المكان الأمثل لطلاب الجامعات للدراسة أو الاستراحة، ولقاءات الأصدقاء، والعائلات برفقة الأطفال، والسياح الباحثين عن جودة الطعام العالية.</p>
+                <p>يتميز باسكوتشي كافيه بديكوراته العصرية والمريحة، ليكون المكان الأمثل للدراسة، لقاءات الأصدقاء، والعائلات برفقة الأطفال.</p>
                 <ul class="info-list">
                     <li><i class="fa-solid fa-location-dot"></i> دمشق - مساكن برزة - حاميش</li>
-                    <li><i class="fa-solid fa-clock"></i> يومياً: من 10:00 صباحاً إلى 2:00 فجراً</li>
-                    <li><i class="fa-solid fa-star"></i> التقييم: 4.5 / 5 نجوم بناءً على آراء زوارنا</li>
-                    <li><i class="fa-solid fa-utensils"></i> الخدمات: أكل سفري + طاولات داخلية</li>
+                    <li><i class="fa-solid fa-clock"></i> يومياً: من 10 ص إلى 2 فجراً</li>
+                    <li><i class="fa-solid fa-star"></i> التقييم: 4.5 / 5 نجوم</li>
+                    <li><i class="fa-solid fa-utensils"></i> الخدمات: أكل سفري + طاولات</li>
                 </ul>
             </div>
         </div>
@@ -700,10 +724,10 @@
                 </div>
                 <div class="form-group">
                     <label for="notes">العنوان أو تفاصيل الطلب</label>
-                    <textarea id="notes" rows="3" placeholder="اكتب تفاصيل طلبك أو رقم الطاولة المفضل..."></textarea>
+                    <textarea id="notes" rows="3" placeholder="اكتب تفاصيل طلبك أو رقم الطاولة..."></textarea>
                 </div>
                 <button type="submit" class="submit-order-btn">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> إرسال الطلب عبر واتساب
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> إرسال الطلب عبر واتساب
                 </button>
             </form>
         </div>
@@ -711,20 +735,20 @@
 
     <!-- الفوتر -->
     <footer id="contact">
-        <div class="logo" style="justify-content: center; margin-bottom: 15px;">
+        <div class="logo" style="justify-content: center; margin-bottom: 10px; font-size: 1.3rem;">
             <i class="fa-solid fa-burger"></i> باسكوتشي <span>كافيه</span>
         </div>
-        <p>جميع الحقوق محفوظة © 2026 باسكوتشي كافيه - مساكن برزة / حاميش، دمشق</p>
-        <p style="font-size: 0.9rem; margin-top: 5px; color: var(--secondary);">متفتحون دائماً لخدمتكم حتى الساعة 2 فجراً</p>
+        <p>جميع الحقوق محفوظة © 2026 باسكوتشي كافيه - مساكن برزة / حاميش</p>
+        <p style="font-size: 0.85rem; margin-top: 4px; color: var(--secondary);">خدمتكم حتى الساعة 2 فجراً</p>
     </footer>
 
     <!-- السكربتات (QR + إرسال الواتساب) -->
     <script>
-        // توليد الـ QR Code ليوجه مباشرة لموقع المطعم الخاص بك على الإنترنت
+        // توليد الـ QR Code ديناميكياً
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: window.location.href, // يولد الرمز بناءً على رابط موقعك الحالي تلقائياً
-            width: 180,
-            height: 180,
+            text: window.location.href,
+            width: 150,
+            height: 150,
             colorDark : "#121212",
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
